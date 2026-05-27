@@ -1,0 +1,129 @@
+.regionMap {
+  background: var(--dash-surface);
+  border: 1px solid var(--dash-border);
+  border-radius: var(--dash-radius-sm);
+  padding: 1rem 1.05rem;
+  box-shadow: var(--dash-shadow);
+}
+
+.regionMap__title {
+  margin: 0 0 0.85rem;
+  font-size: 0.78rem;
+  font-weight: 800;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--dash-text-muted);
+}
+
+.regionMap__layout {
+  display: grid;
+  grid-template-columns: minmax(120px, 200px) 1fr;
+  gap: 1.25rem;
+  align-items: start;
+}
+
+@media (max-width: 720px) {
+  .regionMap__layout {
+    grid-template-columns: 1fr;
+  }
+}
+
+.regionMap__svg {
+  width: 100%;
+  max-width: 200px;
+  height: auto;
+  margin: 0 auto;
+  display: block;
+}
+
+.regionMap__region {
+  cursor: pointer;
+  transition: filter 0.15s ease, stroke-width 0.15s ease;
+}
+
+.regionMap__region:hover,
+.regionMap__region--active {
+  filter: brightness(1.08);
+  stroke: var(--dash-navy);
+  stroke-width: 2;
+}
+
+.regionMap__region:focus-visible {
+  outline: 2px solid var(--dash-accent);
+  outline-offset: 2px;
+}
+
+.regionMap__hint {
+  margin: 0 0 1rem;
+  font-size: 0.82rem;
+  color: var(--dash-text-muted);
+}
+
+.regionMap__tooltip {
+  margin-bottom: 1rem;
+  padding: 0.65rem 0.75rem;
+  border-radius: 8px;
+  background: var(--dash-surface-2);
+  border: 1px solid var(--dash-border);
+}
+
+.regionMap__tooltipName {
+  margin: 0 0 0.2rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: var(--dash-navy);
+}
+
+.regionMap__tooltipTotal {
+  margin: 0 0 0.15rem;
+  font-size: 1.1rem;
+  font-weight: 800;
+  color: var(--dash-accent-mid);
+}
+
+.regionMap__tooltipMeta {
+  margin: 0;
+  font-size: 0.78rem;
+  color: var(--dash-text-muted);
+}
+
+.regionMap__legend {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+  font-size: 0.72rem;
+  color: var(--dash-text-muted);
+}
+
+.regionMap__legendBar {
+  flex: 1;
+  height: 8px;
+  border-radius: 4px;
+  background: linear-gradient(90deg, #e8ecf4 0%, #eb5e28 100%);
+}
+
+.regionMap__top {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.regionMap__top li {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+  padding: 0.35rem 0;
+  border-bottom: 1px solid var(--dash-border);
+  font-size: 0.8rem;
+}
+
+.regionMap__top li:last-child {
+  border-bottom: none;
+}
+
+.regionMap__other {
+  margin: 0.75rem 0 0;
+  font-size: 0.78rem;
+  color: var(--dash-text-muted);
+}

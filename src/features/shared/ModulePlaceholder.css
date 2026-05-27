@@ -1,0 +1,26 @@
+.modulePlaceholder {
+  max-width: 640px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+}
+
+.modulePlaceholder__title {
+  margin: 0 0 0.75rem;
+  font-size: 1.25rem;
+  font-weight: 800;
+  color: var(--dash-navy);
+}
+
+.modulePlaceholder__text {
+  margin: 0;
+  font-size: 0.95rem;
+  line-height: 1.5;
+  color: var(--dash-text-muted);
+}
+
+.modulePlaceholder__text code {
+  font-size: 0.88em;
+  padding: 0.1em 0.35em;
+  border-radius: 4px;
+  background: var(--dash-surface-2);
+}

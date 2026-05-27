@@ -1,0 +1,368 @@
+.honTableWrap {
+  margin-top: 1.5rem;
+  padding-top: 1.35rem;
+  border-top: 1px solid var(--pro-border-subtle, #e8edf4);
+}
+
+.honTable__header {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-bottom: 0.85rem;
+}
+
+.honTable__title {
+  margin: 0;
+  font-family: var(--pro-font-serif, Georgia, serif);
+  font-size: var(--pro-text-base, 0.9375rem);
+  font-weight: 600;
+  color: var(--pro-navy, #0d2142);
+  letter-spacing: -0.01em;
+}
+
+.honTable__titleChevron {
+  display: none;
+}
+
+.honTable__count {
+  font-family: var(--pro-font-sans, sans-serif);
+  font-weight: 500;
+  color: var(--pro-text-secondary, #4a5d7c);
+}
+
+.honTable__export {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.45rem 0.75rem;
+  border: 1px solid var(--pro-success-border, #b8dcc4);
+  border-radius: var(--pro-input-radius, 10px);
+  background: var(--pro-success-soft, #e8f4ec);
+  font-size: var(--pro-text-xs, 0.75rem);
+  font-weight: 600;
+  color: var(--pro-success, #1f6b42);
+  cursor: pointer;
+  font-family: inherit;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.honTable__export:hover {
+  background: #dcefe3;
+  text-decoration: none;
+}
+
+.honTable__exportIcon {
+  display: inline-flex;
+  width: 1rem;
+  height: 1rem;
+}
+
+.honTable__exportIcon svg {
+  width: 100%;
+  height: 100%;
+}
+
+.honTable__empty {
+  margin: 0.5rem 0 0;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: var(--pro-text-sm, 0.875rem);
+  color: var(--pro-text-secondary, #4a5d7c);
+  line-height: 1.55;
+  background: var(--pro-surface-muted, #f6f8fb);
+  border-radius: var(--pro-table-radius, 12px);
+  border: 1px dashed var(--pro-table-border, #dce3ee);
+}
+
+.honTableScroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--pro-table-border, #dce3ee);
+  border-radius: var(--pro-table-radius, 12px);
+  background: var(--pro-surface, #fff);
+}
+
+.honTable {
+  width: 100%;
+  min-width: 960px;
+  border-collapse: collapse;
+  font-size: var(--pro-text-sm, 0.875rem);
+  color: var(--pro-text, #0d2142);
+  font-variant-numeric: tabular-nums;
+}
+
+.honTable th,
+.honTable td {
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--pro-border-subtle, #e8edf4);
+}
+
+.honTable th {
+  background: var(--pro-table-head-bg, #f4f6fa);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pro-table-head-color, #132a52);
+  white-space: nowrap;
+}
+
+.honTable__th {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.honTable__thIcon {
+  width: 0.85rem;
+  height: 0.85rem;
+  opacity: 0.55;
+  color: var(--pro-navy-mid, #132a52);
+}
+
+.honTable__thActions {
+  width: 7.5rem;
+}
+
+.honTable tbody tr:nth-child(even) {
+  background: var(--pro-row-stripe, #fafbfd);
+}
+
+.honTable tbody tr:hover {
+  background: var(--pro-row-hover, #f3f6fb);
+}
+
+.honTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.honTable__loadingCell {
+  text-align: center;
+  padding: 2.25rem !important;
+  color: var(--pro-text-secondary, #4a5d7c);
+}
+
+.honTable__caratulaCell {
+  max-width: 18rem;
+  font-weight: 500;
+  line-height: 1.45;
+}
+
+.honTable__caratulaLink {
+  border: none;
+  background: none;
+  padding: 0;
+  margin: 0;
+  font: inherit;
+  font-weight: 500;
+  color: var(--pro-link, #1a4d8c);
+  cursor: pointer;
+  text-align: left;
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  transition: color 0.12s ease;
+}
+
+.honTable__caratulaLink:hover {
+  color: var(--pro-link-hover, #0d2142);
+}
+
+.honTable__abogado {
+  white-space: nowrap;
+  font-weight: 500;
+  color: var(--pro-text-secondary, #4a5d7c);
+  font-size: 0.8125rem;
+}
+
+.honTable__monto {
+  font-weight: 600;
+  white-space: nowrap;
+  color: var(--pro-navy, #0d2142);
+}
+
+.honTable__tipo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  font-weight: 500;
+  font-size: 0.8125rem;
+  color: var(--pro-text-secondary, #4a5d7c);
+  white-space: nowrap;
+}
+
+.honTable__tipoIcon {
+  width: 1.25rem;
+  height: 1.25rem;
+  padding: 0.2rem;
+  border-radius: 6px;
+  color: var(--pro-accent, #eb5e28);
+  background: var(--pro-accent-muted, rgba(235, 94, 40, 0.06));
+  flex-shrink: 0;
+}
+
+.honTable__tipoIcon--dev {
+  color: var(--pro-info, #2a6f8a);
+  background: var(--pro-info-soft, #e8f2f6);
+}
+
+/* Badges estilo pill — más sobrio para entorno legal */
+.honTable__badge {
+  display: inline-block;
+  min-width: 5.25rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: none;
+  border: 1px solid transparent;
+}
+
+.honTable__badge--danger {
+  color: var(--pro-danger, #a61b1b);
+  background: var(--pro-danger-soft, #fceeee);
+  border-color: var(--pro-danger-border, #f0c4c4);
+}
+
+.honTable__badge--success {
+  color: var(--pro-success, #1f6b42);
+  background: var(--pro-success-soft, #e8f4ec);
+  border-color: var(--pro-success-border, #b8dcc4);
+}
+
+.honTable__badge--warning {
+  color: var(--pro-warning, #9a6b14);
+  background: var(--pro-warning-soft, #faf5e8);
+  border-color: var(--pro-warning-border, #ead9b0);
+}
+
+.honTable__actions {
+  white-space: nowrap;
+}
+
+.honTable__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  margin-right: 0.3rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.1s ease;
+}
+
+.honTable__action svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.honTable__action--edit {
+  color: var(--pro-primary, #1a4d8c);
+  background: #eef3f9;
+  border-color: #cdd9ea;
+}
+
+.honTable__action--edit:hover:not(:disabled) {
+  background: #e2ebf5;
+}
+
+.honTable__action--pay {
+  color: var(--pro-success, #1f6b42);
+  background: var(--pro-success-soft, #e8f4ec);
+  border-color: var(--pro-success-border, #b8dcc4);
+}
+
+.honTable__action--delete {
+  color: var(--pro-danger, #a61b1b);
+  background: var(--pro-danger-soft, #fceeee);
+  border-color: var(--pro-danger-border, #f0c4c4);
+}
+
+.honTable__action:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.honTable__action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.honPagination {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem 1rem;
+  margin-top: 1.1rem;
+  padding: 0.6rem 0.15rem 0;
+}
+
+.honPagination__info {
+  margin: 0;
+  font-size: var(--pro-text-xs, 0.75rem);
+  color: var(--pro-text-secondary, #4a5d7c);
+}
+
+.honPagination__controls {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.65rem 0.85rem;
+}
+
+.honPagination__pages {
+  font-size: var(--pro-text-xs, 0.75rem);
+  font-weight: 600;
+  color: var(--pro-text-tertiary, #7a8ba8);
+}
+
+.honPagination__btn {
+  padding: 0.48rem 1.05rem;
+  border: 1px solid var(--pro-table-border, #dce3ee);
+  border-radius: var(--pro-input-radius, 10px);
+  background: var(--pro-surface, #fff);
+  font-size: var(--pro-text-xs, 0.75rem);
+  font-weight: 600;
+  cursor: pointer;
+  font-family: inherit;
+  color: var(--pro-navy, #0d2142);
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
+}
+
+.honPagination__btn:hover:not(:disabled) {
+  background: var(--pro-surface-muted, #f6f8fb);
+  border-color: #b8c4d6;
+}
+
+.honPagination__btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}

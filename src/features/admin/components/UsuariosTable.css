@@ -1,0 +1,204 @@
+.usuariosTableWrap {
+  margin-top: 0.25rem;
+}
+
+.usuariosTable__sectionHead {
+  margin-bottom: 0.85rem;
+}
+
+.usuariosTable__sectionTitle {
+  margin: 0;
+  font-family: var(--pro-font-serif, Georgia, serif);
+  font-size: var(--pro-text-base, 0.9375rem);
+  font-weight: 600;
+  color: var(--pro-navy, #0d2142);
+  letter-spacing: -0.01em;
+}
+
+.usuariosTable__chevron {
+  display: none;
+}
+
+.usuariosTable__empty {
+  margin: 0.5rem 0 0;
+  padding: 2rem 1.5rem;
+  text-align: center;
+  font-size: var(--pro-text-sm, 0.875rem);
+  color: var(--pro-text-secondary, #4a5d7c);
+  line-height: 1.55;
+  background: var(--pro-surface-muted, #f6f8fb);
+  border-radius: var(--pro-table-radius, 12px);
+  border: 1px dashed var(--pro-table-border, #dce3ee);
+}
+
+.usuariosTableScroll {
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
+  border: 1px solid var(--pro-table-border, #dce3ee);
+  border-radius: var(--pro-table-radius, 12px);
+  background: var(--pro-surface, #fff);
+}
+
+.usuariosTable {
+  width: 100%;
+  min-width: 720px;
+  border-collapse: collapse;
+  font-size: var(--pro-text-sm, 0.875rem);
+  color: var(--pro-text, #0d2142);
+}
+
+.usuariosTable th,
+.usuariosTable td {
+  padding: 0.7rem 0.85rem;
+  text-align: left;
+  vertical-align: middle;
+  border-bottom: 1px solid var(--pro-border-subtle, #e8edf4);
+}
+
+.usuariosTable th {
+  background: var(--pro-table-head-bg, #f4f6fa);
+  font-size: 0.6875rem;
+  font-weight: 650;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--pro-table-head-color, #132a52);
+  white-space: nowrap;
+}
+
+.usuariosTable__th {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.usuariosTable__thIcon {
+  width: 0.85rem;
+  height: 0.85rem;
+  opacity: 0.55;
+  color: var(--pro-navy-mid, #132a52);
+}
+
+.usuariosTable__thActions {
+  width: 6rem;
+}
+
+.usuariosTable tbody tr:nth-child(even) {
+  background: var(--pro-row-stripe, #fafbfd);
+}
+
+.usuariosTable tbody tr:hover {
+  background: var(--pro-row-hover, #f3f6fb);
+}
+
+.usuariosTable tbody tr:last-child td {
+  border-bottom: none;
+}
+
+.usuariosTable__loadingCell {
+  text-align: center;
+  padding: 2.25rem !important;
+  color: var(--pro-text-secondary, #4a5d7c);
+}
+
+.usuariosTable__nombre {
+  font-weight: 500;
+  max-width: 14rem;
+  color: var(--pro-navy, #0d2142);
+  line-height: 1.4;
+}
+
+.usuariosTable__login {
+  font-weight: 500;
+  font-family: var(--pro-font-mono, monospace);
+  font-size: 0.8125rem;
+  color: var(--pro-text-secondary, #4a5d7c);
+}
+
+.usuariosTable td:not(.usuariosTable__nombre):not(.usuariosTable__login):not(.usuariosTable__actions) {
+  color: var(--pro-text-secondary, #4a5d7c);
+  font-weight: 400;
+}
+
+.usuariosTable__badge {
+  display: inline-block;
+  min-width: 5.25rem;
+  padding: 0.3rem 0.65rem;
+  border-radius: 999px;
+  font-size: 0.6875rem;
+  font-weight: 600;
+  letter-spacing: 0.02em;
+  text-align: center;
+  text-transform: none;
+  border: 1px solid transparent;
+}
+
+.usuariosTable__badge--admin {
+  color: var(--pro-navy, #0d2142);
+  background: #eef1f6;
+  border-color: #cdd5e3;
+}
+
+.usuariosTable__badge--ingresador {
+  color: var(--pro-info, #2a6f8a);
+  background: var(--pro-info-soft, #e8f2f6);
+  border-color: var(--pro-info-border, #bdd4e0);
+}
+
+.usuariosTable__actions {
+  white-space: nowrap;
+}
+
+.usuariosTable__action {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 1.85rem;
+  height: 1.85rem;
+  margin-right: 0.3rem;
+  padding: 0;
+  border: 1px solid transparent;
+  border-radius: 8px;
+  cursor: pointer;
+  transition:
+    background 0.15s ease,
+    transform 0.1s ease;
+}
+
+.usuariosTable__action svg {
+  width: 0.9rem;
+  height: 0.9rem;
+}
+
+.usuariosTable__action--edit {
+  color: var(--pro-primary, #1a4d8c);
+  background: #eef3f9;
+  border-color: #cdd9ea;
+}
+
+.usuariosTable__action--delete {
+  color: var(--pro-danger, #a61b1b);
+  background: var(--pro-danger-soft, #fceeee);
+  border-color: var(--pro-danger-border, #f0c4c4);
+}
+
+.usuariosTable__action:hover:not(:disabled) {
+  transform: translateY(-1px);
+}
+
+.usuariosTable__action:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+  transform: none;
+}
+
+.sr-only {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
