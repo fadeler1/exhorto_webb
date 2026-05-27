@@ -1,0 +1,42 @@
+<?php
+
+
+$servername = "localhost";
+$username = "ctr17658";
+$password = "P4MmL@]tXLEN:H$";
+$dbname = "ctr17658_EXHORTO";
+
+
+try {
+	  // Create connection
+		$conn = new PDO("mysql:host=$servername;dbname=$dbname", $username, $password);
+		$conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+
+
+			
+		$ID_EXHORTO 	= $_POST["ID_EXHORTO"];
+		$DOCUMENTO 		= $_POST["DOCUMENTO"];
+		$MONTO 		= $_POST["MONTO"];
+		
+
+		/*Creamos una query sencilla*/
+	
+
+	
+			VALUES (null,$ID_EXHORTO ,[value-3],[value-4],[value-5])
+
+		$sql2="INSERT INTO BOLETA_HONORARIO(`ID`, `ID_EXHORTO`, `DOCUMENTO`, `MONTO`, `ESTADO`) 
+				VALUES (null,$ID_EXHORTO, $DOCUMENTO, $MONTO , 0)";
+
+		
+		 $conn->exec($sql2);
+		 echo "<div class=\"alert alert-success\"><b>BOLETA BOLETA BOLETA_HONORARIO</b> Fue ingresado correctamente a la base de datos</div>";
+}catch(PDOException $e){
+	 echo "<div class=\"alert alert-danger\" ><b>Error ...! ". $sql2 ."</b> ". $conn->error."</div>";
+}
+
+   $conn = null;
+
+
+
+?>

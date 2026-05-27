@@ -1,0 +1,64 @@
+Despliegue rápido (PHP + MySQL)
+===============================
+
+1) Sube la carpeta "server" al hosting (por ejemplo public_html/exhortos-api/).
+
+2) En MySQL ejecuta el script: sql/001_api_tokens.sql
+
+3) Copia config/config.example.php a config/config.php y edita:
+   - database: host, name, user, password
+   - users_table y nombres de columnas según tu tabla de usuarios
+   - password_mode: bcrypt | md5 | plain | auto
+   - cors_allowed_origins: URLs exactas del front (ej. https://tudominio.cl y http://localhost:5173)
+
+4) Prueba el endpoint (ajusta la URL a tu ruta real):
+   curl -X POST https://TU_DOMINIO/.../api/auth/login.php \
+     -H "Content-Type: application/json" \
+     -d '{"username":"demo","password":"demo"}'
+
+5) En el proyecto React, configura .env:
+   VITE_API_BASE_URL=https://TU_DOMINIO/.../ruta-hasta-server
+   VITE_AUTH_LOGIN_PATH=/api/auth/login.php
+   (La parte de ruta depende de dónde quede la carpeta "api" en el servidor.)
+
+Seguridad: no subas config.php con contraseñas a repositorios públicos. Rota credenciales si se filtraron.
+
+
+Prueba con UN solo archivo (sin tocar .htaccess)
+==================================================
+- Si en tu hosting no puedes crear/modificar .htaccess, igual puedes subir sólo:
+  standalone/php_ok.php  → por ejemplo como public_html/php_ok.php
+  (versión compatible PHP 5.5: sin sintaxis de PHP 7+)
+- Abre en el navegador la URL de ese archivo. Debes ver JSON con "ok": true.
+- Elimínalo tras comprobar (expone rutas útiles sólo para depuración).
+
+Login en UN solo archivo (hosting PHP viejo)
+=============================================
+- Sube standalone/login_endpoint.php a public_html y edita la sección CONFIG dentro del archivo.
+- En MySQL ejecuta el CREATE TABLE api_tokens del bloque de comentarios al final del archivo.
+- Endpoint: POST JSON a https://TU_DOMINIO/login_endpoint.php con {"username":"","password":""}
+  (también admite usuario/clave).
+- React: VITE_API_BASE_URL=https://TU_DOMINIO  y  VITE_AUTH_LOGIN_PATH=/login_endpoint.php
+
+
+Login con tu conexion.php + mysql_* (tabla USUARIO)
+===================================================
+- Sube standalone/login_conexion.php en el MISMO directorio que conexion.php.
+- No reemplaza tu login por formulario: puedes seguir usando el PHP viejo o este endpoint.
+- Acepta el mismo POST form (USUARIO/PASSWORD) o JSON del React (username/password).
+- Devuelve JSON con token JWT (HS256, tres partes con puntos) y user; deja $_SESSION["usuario"] y $_SESSION["perfil"] como tu script.
+- Clave JWT: en login_conexion.php ($jwt_secret) o archivo login_jwt_secret.txt junto al script (ver login_jwt_secret.example.txt).
+- Ajusta $idx_session_usuario y $idx_session_perfil si el orden de columnas de tu SELECT * cambia.
+- React: VITE_AUTH_LOGIN_PATH=/login_conexion.php
+
+Recuperar contraseña (USUARIO.EMAIL + mail + AUTORIZACION)
+============================================================
+- Sube standalone/recuperar_conexion.php junto a conexion.php (ajusta $conexion_path).
+- Configura $base_url_cambio (URL de cambioContrasena.php), $idx_nombre_correo si el nombre no está en la columna índice 1.
+- React: VITE_AUTH_FORGOT_PATH=/api/recuperar_conexion.php (o la ruta pública que uses).
+- No dupliques usuario/contraseña MySQL en el PHP: solo conexion.php.
+
+El endpoint api/auth/login.php NO depende de reglas Rewrite en .htaccess: basta llamar la URL completa del login.php siempre que existan includes/, config/config.php y la carpeta sql ya aplicada.
+
+Los .htaccess del paquete son opcionales (refuerzan que no entren por web a includes/ y config/).
+Si no los usas, no subas config.php a una URL directa conocida y revisa permisos de archivos en cPanel.
