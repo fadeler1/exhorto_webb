@@ -19,9 +19,23 @@ function CaratulaCell({ nombreCliente, apellidoDeudor }) {
   const cliente = displayText(nombreCliente)
   const deudor = displayText(apellidoDeudor)
   if (cliente === '—' && deudor === '—') return '—'
-  if (cliente === '—') return deudor
-  if (deudor === '—') return cliente
-  return `${cliente}/${deudor}`
+  if (cliente === '—') {
+    return <span className="honTable__caratulaLine">{deudor}</span>
+  }
+  if (deudor === '—') {
+    return <span className="honTable__caratulaLine">{cliente}</span>
+  }
+  return (
+    <div className="honTable__caratula">
+      <span className="honTable__caratulaLine">{cliente}</span>
+      <span className="honTable__caratulaCon" aria-hidden>
+        CON
+      </span>
+      <span className="honTable__caratulaLine honTable__caratulaLine--deudor">
+        {deudor}
+      </span>
+    </div>
+  )
 }
 
 function IconBullhorn() {
@@ -63,6 +77,17 @@ function IconEdit() {
       <path
         fill="currentColor"
         d="M11.5 1.5 14.5 4.5 5.8 13.2 2.8 14.2l1-3 8.7-8.7Zm1.4-.9 1 1-1.3 1.3-1-1 1.3-1.3Z"
+      />
+    </svg>
+  )
+}
+
+function IconActions() {
+  return (
+    <svg className="honTable__thIcon" viewBox="0 0 16 16" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M2 4.5A1.5 1.5 0 0 1 3.5 3h9A1.5 1.5 0 0 1 14 4.5v7A1.5 1.5 0 0 1 12.5 13h-9A1.5 1.5 0 0 1 2 11.5v-7ZM4 6h8v1H4V6Zm0 2.5h5v1H4v-1Z"
       />
     </svg>
   )
@@ -175,7 +200,7 @@ export function HonorariosResultsTable({
             <table className="honTable">
               <thead>
                 <tr>
-                  <th scope="col">
+                  <th scope="col" className="honTable__colCaratula">
                     <span className="honTable__th">
                       <IconBullhorn />
                       Carátula
@@ -187,44 +212,47 @@ export function HonorariosResultsTable({
                       Abogado
                     </span>
                   </th>
-                  <th scope="col">
+                  <th scope="col" className="honTable__colDoc">
                     <span className="honTable__th">
                       <IconBookmark />
-                      Nº documento
+                      Nº doc.
                     </span>
                   </th>
-                  <th scope="col">
+                  <th scope="col" className="honTable__colMonto">
                     <span className="honTable__th">
                       <IconBookmark />
                       Monto
                     </span>
                   </th>
-                  <th scope="col">
+                  <th scope="col" className="honTable__colTipo">
                     <span className="honTable__th">
                       <IconBookmark />
                       Tipo
                     </span>
                   </th>
-                  <th scope="col">
+                  <th scope="col" className="honTable__colPertenece">
                     <span className="honTable__th">
                       <IconBookmark />
                       Pertenece
                     </span>
                   </th>
-                  <th scope="col">
+                  <th scope="col" className="honTable__colEstado">
                     <span className="honTable__th">
                       <IconEdit />
                       Estado boleta
                     </span>
                   </th>
-                  <th scope="col">
+                  <th scope="col" className="honTable__colEstado">
                     <span className="honTable__th">
                       <IconEdit />
                       Estado exhorto
                     </span>
                   </th>
                   <th scope="col" className="honTable__thActions">
-                    <span className="sr-only">Acciones</span>
+                    <span className="honTable__th">
+                      <IconActions />
+                      Acciones
+                    </span>
                   </th>
                 </tr>
               </thead>
@@ -267,7 +295,7 @@ export function HonorariosResultsTable({
                         <td className="honTable__abogado">
                           {displayText(ex?.abogado)}
                         </td>
-                        <td>{row.documento ?? '—'}</td>
+                        <td className="honTable__doc">{row.documento ?? '—'}</td>
                         <td className="honTable__monto">
                           {typeof row.monto === 'number'
                             ? `$${row.monto.toLocaleString('es-CL')}`
@@ -285,8 +313,10 @@ export function HonorariosResultsTable({
                             </span>
                           </span>
                         </td>
-                        <td>{displayText(row.pertenece)}</td>
-                        <td>
+                        <td className="honTable__pertenece">
+                          {displayText(row.pertenece)}
+                        </td>
+                        <td className="honTable__estadoCell">
                           <span
                             className={`honTable__badge ${
                               boletaPagada
@@ -297,7 +327,7 @@ export function HonorariosResultsTable({
                             {boletaPagada ? 'Pagado' : 'Pendiente'}
                           </span>
                         </td>
-                        <td>
+                        <td className="honTable__estadoCell">
                           <span
                             className={`honTable__badge ${
                               exhortoTerminado
@@ -309,53 +339,58 @@ export function HonorariosResultsTable({
                           </span>
                         </td>
                         <td className="honTable__actions">
-                          <button
-                            type="button"
-                            className="honTable__action honTable__action--edit"
-                            title="Modificar"
-                            aria-label="Modificar boleta"
-                            disabled={busy || !onEdit}
-                            onClick={() => onEdit?.(row)}
-                          >
-                            <svg viewBox="0 0 16 16" aria-hidden>
-                              <path
-                                fill="currentColor"
-                                d="M11.5 1.5 14.5 4.5 5.8 13.2 2.8 14.2l1-3 8.7-8.7Zm1.4-.9 1 1-1.3 1.3-1-1 1.3-1.3Z"
-                              />
-                            </svg>
-                          </button>
-                          {!boletaPagada ? (
+                          <div className="honTable__actionsGroup" role="group" aria-label="Acciones de boleta">
                             <button
                               type="button"
-                              className="honTable__action honTable__action--pay"
-                              title="Marcar como pagada"
-                              aria-label="Pagar boleta"
-                              disabled={busy || !onPay}
-                              onClick={() => onPay?.(row)}
+                              className="honTable__action honTable__action--edit"
+                              title="Modificar"
+                              aria-label="Modificar boleta"
+                              disabled={busy || !onEdit}
+                              onClick={() => onEdit?.(row)}
                             >
                               <svg viewBox="0 0 16 16" aria-hidden>
                                 <path
                                   fill="currentColor"
-                                  d="M13.5 2.5 6 10 2.5 6.5 1 8l5 5 9-9-1.5-1.5Z"
+                                  d="M11.5 1.5 14.5 4.5 5.8 13.2 2.8 14.2l1-3 8.7-8.7Zm1.4-.9 1 1-1.3 1.3-1-1 1.3-1.3Z"
                                 />
                               </svg>
+                              <span className="honTable__actionLabel">Editar</span>
                             </button>
-                          ) : null}
-                          <button
-                            type="button"
-                            className="honTable__action honTable__action--delete"
-                            title="Eliminar"
-                            aria-label="Eliminar boleta"
-                            disabled={busy || !onDelete}
-                            onClick={() => onDelete?.(row)}
-                          >
-                            <svg viewBox="0 0 16 16" aria-hidden>
-                              <path
-                                fill="currentColor"
-                                d="M5.5 1.5h5l.5 1.5h4v1.5H2V3h4l.5-1.5ZM3.5 6h1v7.5h1V6h1v7.5h1V6h1v7.5h1V6h1v7.5h1V6h1v7.5h1.5V5H3.5v9.5Z"
-                              />
-                            </svg>
-                          </button>
+                            {!boletaPagada ? (
+                              <button
+                                type="button"
+                                className="honTable__action honTable__action--pay"
+                                title="Marcar como pagada"
+                                aria-label="Pagar boleta"
+                                disabled={busy || !onPay}
+                                onClick={() => onPay?.(row)}
+                              >
+                                <svg viewBox="0 0 16 16" aria-hidden>
+                                  <path
+                                    fill="currentColor"
+                                    d="M13.5 2.5 6 10 2.5 6.5 1 8l5 5 9-9-1.5-1.5Z"
+                                  />
+                                </svg>
+                                <span className="honTable__actionLabel">Pagar</span>
+                              </button>
+                            ) : null}
+                            <button
+                              type="button"
+                              className="honTable__action honTable__action--delete"
+                              title="Eliminar"
+                              aria-label="Eliminar boleta"
+                              disabled={busy || !onDelete}
+                              onClick={() => onDelete?.(row)}
+                            >
+                              <svg viewBox="0 0 16 16" aria-hidden>
+                                <path
+                                  fill="currentColor"
+                                  d="M5.5 1.5h5l.5 1.5h4v1.5H2V3h4l.5-1.5ZM3.5 6h1v7.5h1V6h1v7.5h1V6h1v7.5h1V6h1v7.5h1V6h1v7.5h1.5V5H3.5v9.5Z"
+                                />
+                              </svg>
+                              <span className="honTable__actionLabel">Eliminar</span>
+                            </button>
+                          </div>
                         </td>
                       </tr>
                     )

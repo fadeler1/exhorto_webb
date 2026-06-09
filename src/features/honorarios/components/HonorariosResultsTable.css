@@ -88,8 +88,10 @@
 
 .honTable {
   width: 100%;
-  min-width: 960px;
-  border-collapse: collapse;
+  min-width: 1180px;
+  table-layout: auto;
+  border-collapse: separate;
+  border-spacing: 0;
   font-size: var(--pro-text-sm, 0.875rem);
   color: var(--pro-text, #0d2142);
   font-variant-numeric: tabular-nums;
@@ -126,8 +128,39 @@
   color: var(--pro-navy-mid, #132a52);
 }
 
-.honTable__thActions {
+.honTable__colCaratula,
+.honTable__caratulaCell {
+  width: 30%;
+  min-width: 17rem;
+  max-width: 26rem;
+}
+
+.honTable__colDoc,
+.honTable__doc {
+  width: 4.25rem;
+  max-width: 4.25rem;
+  padding-left: 0.4rem;
+  padding-right: 0.4rem;
+}
+
+.honTable__colMonto {
   width: 7.5rem;
+}
+
+.honTable__colTipo {
+  width: 8.5rem;
+}
+
+.honTable__colPertenece {
+  width: 9rem;
+}
+
+.honTable__colEstado {
+  width: 8.5rem;
+}
+
+.honTable__thActions {
+  width: 11.75rem;
 }
 
 .honTable tbody tr:nth-child(even) {
@@ -149,23 +182,54 @@
 }
 
 .honTable__caratulaCell {
-  max-width: 18rem;
   font-weight: 500;
-  line-height: 1.45;
+  line-height: 1.4;
+  vertical-align: top;
+}
+
+.honTable__caratula {
+  display: flex;
+  flex-direction: column;
+  gap: 0.12rem;
+  min-width: 0;
+}
+
+.honTable__caratulaLine {
+  display: block;
+  font-weight: 600;
+  color: var(--pro-navy, #0d2142);
+  line-height: 1.4;
+  overflow-wrap: anywhere;
+  word-break: break-word;
+  white-space: normal;
+}
+
+.honTable__caratulaLine--deudor {
+  font-weight: 500;
+  color: var(--pro-text-secondary, #4a5d7c);
+}
+
+.honTable__caratulaCon {
+  display: block;
+  font-weight: 800;
+  font-size: 0.625rem;
+  letter-spacing: 0.1em;
+  color: var(--pro-danger, #a61b1b);
+  line-height: 1.2;
 }
 
 .honTable__caratulaLink {
+  display: block;
+  width: 100%;
   border: none;
   background: none;
   padding: 0;
   margin: 0;
   font: inherit;
-  font-weight: 500;
   color: var(--pro-link, #1a4d8c);
   cursor: pointer;
   text-align: left;
-  text-decoration: underline;
-  text-underline-offset: 2px;
+  text-decoration: none;
   transition: color 0.12s ease;
 }
 
@@ -173,17 +237,44 @@
   color: var(--pro-link-hover, #0d2142);
 }
 
+.honTable__caratulaLink:hover .honTable__caratulaLine {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+}
+
 .honTable__abogado {
+  overflow: hidden;
+  text-overflow: ellipsis;
   white-space: nowrap;
   font-weight: 500;
   color: var(--pro-text-secondary, #4a5d7c);
   font-size: 0.8125rem;
 }
 
+.honTable__doc {
+  text-align: center;
+  font-weight: 600;
+  font-size: 0.8125rem;
+  white-space: nowrap;
+}
+
 .honTable__monto {
+  text-align: right;
   font-weight: 600;
   white-space: nowrap;
   color: var(--pro-navy, #0d2142);
+}
+
+.honTable__estadoCell {
+  text-align: center;
+}
+
+.honTable__pertenece {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font-size: 0.8125rem;
+  color: var(--pro-text-secondary, #4a5d7c);
 }
 
 .honTable__tipo {
@@ -243,21 +334,61 @@
   border-color: var(--pro-warning-border, #ead9b0);
 }
 
+.honTable__thActions,
 .honTable__actions {
-  white-space: nowrap;
+  position: sticky;
+  right: 0;
+  z-index: 2;
+  background: var(--pro-surface, #fff);
+  border-left: 1px solid var(--pro-border-subtle, #e8edf4);
+  box-shadow: -6px 0 12px -8px rgba(13, 33, 66, 0.18);
+}
+
+.honTable__thActions {
+  z-index: 3;
+  background: var(--pro-table-head-bg, #f4f6fa);
+  text-align: center;
+}
+
+.honTable tbody tr:nth-child(even) .honTable__actions {
+  background: var(--pro-row-stripe, #fafbfd);
+}
+
+.honTable tbody tr:hover .honTable__actions {
+  background: var(--pro-row-hover, #f3f6fb);
+}
+
+.honTable__actions {
+  padding: 0.55rem 0.65rem;
+  vertical-align: middle;
+}
+
+.honTable__actionsGroup {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  flex-wrap: nowrap;
 }
 
 .honTable__action {
   display: inline-flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  width: 1.85rem;
-  height: 1.85rem;
-  margin-right: 0.3rem;
-  padding: 0;
+  gap: 0.15rem;
+  width: 3.35rem;
+  min-height: 2.75rem;
+  padding: 0.3rem 0.2rem;
   border: 1px solid transparent;
   border-radius: 8px;
   cursor: pointer;
+  font-family: inherit;
+  font-size: 0.5625rem;
+  font-weight: 700;
+  letter-spacing: 0.03em;
+  line-height: 1.1;
+  text-transform: uppercase;
   transition:
     background 0.15s ease,
     border-color 0.15s ease,
@@ -265,8 +396,13 @@
 }
 
 .honTable__action svg {
-  width: 0.9rem;
-  height: 0.9rem;
+  width: 0.95rem;
+  height: 0.95rem;
+  flex-shrink: 0;
+}
+
+.honTable__actionLabel {
+  white-space: nowrap;
 }
 
 .honTable__action--edit {
@@ -285,10 +421,18 @@
   border-color: var(--pro-success-border, #b8dcc4);
 }
 
+.honTable__action--pay:hover:not(:disabled) {
+  background: #dcefe3;
+}
+
 .honTable__action--delete {
   color: var(--pro-danger, #a61b1b);
   background: var(--pro-danger-soft, #fceeee);
   border-color: var(--pro-danger-border, #f0c4c4);
+}
+
+.honTable__action--delete:hover:not(:disabled) {
+  background: #f8e4e4;
 }
 
 .honTable__action:hover:not(:disabled) {
