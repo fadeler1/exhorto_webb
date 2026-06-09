@@ -99,6 +99,8 @@ function IconCheck() {
  *   pageSize?: number
  *   isLoading?: boolean
  *   isExporting?: boolean
+ *   filtersStale?: boolean
+ *   appliedFilterLabels?: string[]
  *   onPageChange: (page: number) => void
  *   onExport?: () => void
  *   onEdit?: (row: import('../../../api/exhortosApi.js').ExhortoListItem) => void
@@ -115,6 +117,8 @@ export function ExhortosResultsTable({
   pageSize = PAGE_SIZE_DEFAULT,
   isLoading = false,
   isExporting = false,
+  filtersStale = false,
+  appliedFilterLabels = [],
   onPageChange,
   onExport,
   onEdit,
@@ -127,13 +131,30 @@ export function ExhortosResultsTable({
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1
   const to = total === 0 ? 0 : Math.min(page * pageSize, total)
   const hasActions = Boolean(onEdit || onDelete || onHonorario || onDevolucion)
+  const colSpan = hasActions ? 6 : 5
+  const showEmpty = !isLoading && total === 0 && items.length === 0
 
   return (
-    <section className="exhortosTableWrap" aria-busy={isLoading}>
+    <section className="exhortosTableWrap" aria-live="polite" aria-busy={isLoading}>
       <header className="exhortosTable__header">
-        <h3 className="exhortosTable__title">
-          RESULTADO DE LA BÚSQUEDA ({total})
-        </h3>
+        <div className="exhortosTable__headerMain">
+          <h3 className="exhortosTable__title">
+            Resultado de la búsqueda
+            <span className="exhortosTable__count">
+              {' '}
+              · {isLoading ? 'actualizando…' : `${total} ${total === 1 ? 'registro' : 'registros'}`}
+            </span>
+          </h3>
+          {appliedFilterLabels.length > 0 ? (
+            <div className="exhortosTable__filters" aria-label="Filtros aplicados">
+              {appliedFilterLabels.map((label) => (
+                <span key={label} className="exhortosTable__filterChip">
+                  {label}
+                </span>
+              ))}
+            </div>
+          ) : null}
+        </div>
         {onExport && total > 0 ? (
           <button
             type="button"
@@ -152,13 +173,21 @@ export function ExhortosResultsTable({
         ) : null}
       </header>
 
-      {total === 0 && items.length === 0 && !isLoading ? (
+      {filtersStale ? (
+        <p className="exhortosTable__staleFilters" role="status">
+          Modificaste los filtros. Pulsa <strong>Buscar</strong> para actualizar los resultados.
+        </p>
+      ) : null}
+
+      {showEmpty ? (
         <p className="exhortosTable__empty" role="status">
           No se encontraron exhortos con los filtros indicados.
         </p>
       ) : (
         <>
-          <div className="exhortosTableScroll">
+          <div
+            className={`exhortosTableScroll${isLoading ? ' exhortosTableScroll--loading' : ''}`}
+          >
             <table className="exhortosTable">
               <thead>
                 <tr>
@@ -195,9 +224,9 @@ export function ExhortosResultsTable({
                 </tr>
               </thead>
               <tbody>
-                {items.length === 0 && isLoading ? (
+                {isLoading ? (
                   <tr>
-                    <td colSpan={hasActions ? 6 : 5} className="exhortosTable__loadingCell">
+                    <td colSpan={colSpan} className="exhortosTable__loadingCell">
                       Cargando resultados…
                     </td>
                   </tr>
@@ -303,9 +332,11 @@ export function ExhortosResultsTable({
 
           <nav className="exhortosPagination" aria-label="Paginación de resultados">
             <p className="exhortosPagination__info">
-              {total > 0
-                ? `Mostrando ${from}–${to} de ${total}`
-                : 'Sin resultados'}
+              {isLoading
+                ? 'Actualizando resultados…'
+                : total > 0
+                  ? `Mostrando ${from}–${to} de ${total}`
+                  : 'Sin resultados'}
             </p>
             <div className="exhortosPagination__controls">
               <button

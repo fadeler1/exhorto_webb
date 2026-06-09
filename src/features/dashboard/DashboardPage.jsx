@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback, useMemo, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   deleteExhorto,
@@ -20,6 +20,10 @@ import {
   downloadExhortosExcel,
   fetchAllExhortosForExport,
 } from './exhortosExcelExport.js'
+import {
+  areExhortoFiltersEqual,
+  listActiveExhortoFilterLabels,
+} from './exhortoFiltersUtils.js'
 import './DashboardPage.css'
 
 const EXHORTOS_PAGE_SIZE = 20
@@ -72,13 +76,24 @@ export function DashboardPage() {
   )
   const { diligenciaTipos } = useDiligenciaTipos(apiClient)
 
+  const filtersStale = useMemo(
+    () => hasSearched && !areExhortoFiltersEqual(filtros, lastSearchFilters),
+    [filtros, hasSearched, lastSearchFilters],
+  )
+
+  const appliedFilterLabels = useMemo(
+    () => listActiveExhortoFilterLabels(lastSearchFilters),
+    [lastSearchFilters],
+  )
+
   function setField(name, value) {
     setFiltros((prev) => ({ ...prev, [name]: value }))
   }
 
   const runSearch = useCallback(
-    async (targetPage) => {
-      const dateValidation = validateFechaRango(filtros.desde, filtros.hasta)
+    async (targetPage, filtersOverride) => {
+      const activeFilters = filtersOverride ?? filtros
+      const dateValidation = validateFechaRango(activeFilters.desde, activeFilters.hasta)
       if (dateValidation) {
         setSearchError(dateValidation)
         return
@@ -88,7 +103,7 @@ export function DashboardPage() {
       setIsSearching(true)
       try {
         const result = await searchExhortos(apiClient, {
-          ...filtros,
+          ...activeFilters,
           page: targetPage,
           limit: EXHORTOS_PAGE_SIZE,
         })
@@ -105,7 +120,7 @@ export function DashboardPage() {
         const parsed = parseExhortoSearchResponse(result.data)
         setSearchResult(parsed)
         setPage(targetPage)
-        setLastSearchFilters({ ...filtros })
+        setLastSearchFilters({ ...activeFilters })
         setHasSearched(true)
       } catch {
         setSearchError('No se pudo buscar exhortos. Intenta de nuevo.')
@@ -128,7 +143,7 @@ export function DashboardPage() {
       Math.ceil(searchResult.total / EXHORTOS_PAGE_SIZE),
     )
     if (newPage > totalPages) return
-    void runSearch(newPage)
+    void runSearch(newPage, lastSearchFilters)
   }
 
   async function handleExport() {
@@ -214,7 +229,7 @@ export function DashboardPage() {
         return
       }
       setBoletaRequest(null)
-      await runSearch(page)
+      await runSearch(page, lastSearchFilters)
     } catch {
       setBoletaModalError('No se pudo guardar la boleta.')
     } finally {
@@ -244,7 +259,7 @@ export function DashboardPage() {
         Math.max(1, Math.ceil(nextTotal / EXHORTOS_PAGE_SIZE)),
       )
       setDeleteTarget(null)
-      await runSearch(nextPage)
+      await runSearch(nextPage, lastSearchFilters)
     } catch {
       setSearchError('No se pudo eliminar el exhorto.')
     } finally {
@@ -422,6 +437,8 @@ export function DashboardPage() {
               pageSize={EXHORTOS_PAGE_SIZE}
               isLoading={isSearching}
               isExporting={isExporting}
+              filtersStale={filtersStale}
+              appliedFilterLabels={appliedFilterLabels}
               actionBusyId={actionBusyId}
               onPageChange={handlePageChange}
               onExport={handleExport}
