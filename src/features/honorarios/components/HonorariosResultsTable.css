@@ -88,8 +88,8 @@
 
 .honTable {
   width: 100%;
-  min-width: 1180px;
-  table-layout: auto;
+  min-width: 1260px;
+  table-layout: fixed;
   border-collapse: separate;
   border-spacing: 0;
   font-size: var(--pro-text-sm, 0.875rem);
@@ -130,37 +130,43 @@
 
 .honTable__colCaratula,
 .honTable__caratulaCell {
-  width: 30%;
-  min-width: 17rem;
-  max-width: 26rem;
+  width: 24%;
+}
+
+.honTable__colAbogado,
+.honTable__abogado {
+  width: 8%;
 }
 
 .honTable__colDoc,
 .honTable__doc {
-  width: 4.25rem;
-  max-width: 4.25rem;
+  width: 5%;
   padding-left: 0.4rem;
   padding-right: 0.4rem;
 }
 
-.honTable__colMonto {
-  width: 7.5rem;
+.honTable__colMonto,
+.honTable__monto {
+  width: 8%;
 }
 
 .honTable__colTipo {
-  width: 8.5rem;
+  width: 9%;
 }
 
-.honTable__colPertenece {
-  width: 9rem;
+.honTable__colPertenece,
+.honTable__pertenece {
+  width: 11%;
 }
 
-.honTable__colEstado {
-  width: 8.5rem;
+.honTable__colEstado,
+.honTable__estadoCell {
+  width: 9%;
 }
 
-.honTable__thActions {
-  width: 11.75rem;
+.honTable__thActions,
+.honTable__actions {
+  width: 17%;
 }
 
 .honTable tbody tr:nth-child(even) {
@@ -267,6 +273,8 @@
 
 .honTable__estadoCell {
   text-align: center;
+  padding-left: 0.45rem;
+  padding-right: 0.45rem;
 }
 
 .honTable__pertenece {
@@ -302,65 +310,72 @@
   background: var(--pro-info-soft, #e8f2f6);
 }
 
-/* Badges estilo pill — más sobrio para entorno legal */
-.honTable__badge {
-  display: inline-block;
-  min-width: 5.25rem;
-  padding: 0.3rem 0.65rem;
-  border-radius: 999px;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.02em;
-  text-align: center;
-  text-transform: none;
+/* Estados — alto contraste, ajustados al ancho de columna */
+.honTable__estado {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.3rem;
+  width: 100%;
+  max-width: 7.5rem;
+  margin: 0 auto;
+  padding: 0.38rem 0.45rem;
+  border-radius: 8px;
+  font-size: 0.5625rem;
+  font-weight: 800;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  line-height: 1;
+  white-space: nowrap;
   border: 1px solid transparent;
+  box-shadow:
+    0 1px 2px rgba(13, 33, 66, 0.1),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.08);
 }
 
-.honTable__badge--danger {
-  color: var(--pro-danger, #a61b1b);
-  background: var(--pro-danger-soft, #fceeee);
-  border-color: var(--pro-danger-border, #f0c4c4);
+.honTable__estadoIcon {
+  width: 0.72rem;
+  height: 0.72rem;
+  flex-shrink: 0;
+  opacity: 0.95;
 }
 
-.honTable__badge--success {
-  color: var(--pro-success, #1f6b42);
-  background: var(--pro-success-soft, #e8f4ec);
-  border-color: var(--pro-success-border, #b8dcc4);
+.honTable__estadoLabel {
+  line-height: 1;
 }
 
-.honTable__badge--warning {
-  color: var(--pro-warning, #9a6b14);
-  background: var(--pro-warning-soft, #faf5e8);
-  border-color: var(--pro-warning-border, #ead9b0);
+.honTable__estado--boleta-pendiente {
+  color: #fff;
+  background: linear-gradient(180deg, #d94a4a 0%, #b42323 100%);
+  border-color: #9b1f1f;
 }
 
-.honTable__thActions,
-.honTable__actions {
-  position: sticky;
-  right: 0;
-  z-index: 2;
-  background: var(--pro-surface, #fff);
-  border-left: 1px solid var(--pro-border-subtle, #e8edf4);
-  box-shadow: -6px 0 12px -8px rgba(13, 33, 66, 0.18);
+.honTable__estado--boleta-pagado {
+  color: #fff;
+  background: linear-gradient(180deg, #2f9a5d 0%, #1f6b42 100%);
+  border-color: #1a5c38;
+}
+
+.honTable__estado--exhorto-vigente {
+  color: #fff;
+  background: linear-gradient(180deg, #f0784f 0%, #eb5e28 100%);
+  border-color: #cf4f1f;
+}
+
+.honTable__estado--exhorto-terminado {
+  color: #fff;
+  background: linear-gradient(180deg, #4a9a63 0%, #2e7d32 100%);
+  border-color: #256829;
 }
 
 .honTable__thActions {
-  z-index: 3;
-  background: var(--pro-table-head-bg, #f4f6fa);
   text-align: center;
 }
 
-.honTable tbody tr:nth-child(even) .honTable__actions {
-  background: var(--pro-row-stripe, #fafbfd);
-}
-
-.honTable tbody tr:hover .honTable__actions {
-  background: var(--pro-row-hover, #f3f6fb);
-}
-
 .honTable__actions {
-  padding: 0.55rem 0.65rem;
+  padding: 0.55rem 0.5rem;
   vertical-align: middle;
+  text-align: center;
 }
 
 .honTable__actionsGroup {
@@ -377,8 +392,8 @@
   align-items: center;
   justify-content: center;
   gap: 0.15rem;
-  width: 3.35rem;
-  min-height: 2.75rem;
+  width: 3.1rem;
+  min-height: 2.6rem;
   padding: 0.3rem 0.2rem;
   border: 1px solid transparent;
   border-radius: 8px;

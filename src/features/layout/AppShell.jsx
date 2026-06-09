@@ -5,27 +5,8 @@ import { useAuthDependencies } from '../../auth/AuthDependenciesProvider.jsx'
 import { useUserPerfil } from '../../auth/hooks/useUserPerfil.js'
 import { getAppNavItems } from '../../navigation/appNav.js'
 import { AppNavMenu } from './AppNavMenu.jsx'
+import { DashBrandLogo } from '../shared/DashBrandLogo.jsx'
 import '../dashboard/DashboardPage.css'
-
-function LogoMark() {
-  return (
-    <div className="dashBrand__mark" aria-hidden>
-      <div className="dashBrand__markInner">
-        <svg viewBox="0 0 48 48" className="dashBrand__scales">
-          <path
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            d="M24 12v26M15 21h18M15 21l-3.5 9h7M33 21l3.5 9h-7"
-          />
-          <circle cx="15" cy="33" r="2.5" fill="currentColor" />
-          <circle cx="33" cy="33" r="2.5" fill="currentColor" />
-        </svg>
-      </div>
-    </div>
-  )
-}
 
 /**
  * @param {{
@@ -81,13 +62,7 @@ export function AppShell({ children, activeNav = 'exhorto' }) {
       />
 
       <aside className="dashApp__sidebar" id="dash-sidebar" aria-label="Menú principal">
-        <div className="dashBrand">
-          <LogoMark />
-          <p className="dashBrand__text">
-            Tramitación Exhortos
-            <span className="dashBrand__sub">A &amp; G Asociados</span>
-          </p>
-        </div>
+        <DashBrandLogo />
         <nav className="dashNav" aria-label="Secciones">
           <AppNavMenu items={navItems} activeNav={activeNav} onNavigate={closeNav} />
         </nav>

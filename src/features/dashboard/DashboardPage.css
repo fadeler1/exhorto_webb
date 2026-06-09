@@ -58,64 +58,7 @@
   flex-direction: column;
 }
 
-/* --- Marca / sidebar --- */
-.dashBrand {
-  padding: 1.5rem 1.1rem 1.35rem;
-  text-align: center;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.07);
-}
-
-.dashBrand__mark {
-  width: 80px;
-  height: 80px;
-  margin: 0 auto 1rem;
-  padding: 3px;
-  border-radius: 50%;
-  background: linear-gradient(
-    135deg,
-    var(--dash-accent) 0%,
-    var(--dash-accent-mid) 38%,
-    var(--dash-navy-mid) 72%,
-    var(--dash-navy-deep) 100%
-  );
-  box-shadow:
-    0 4px 16px rgba(0, 0, 0, 0.35),
-    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
-}
-
-.dashBrand__markInner {
-  width: 100%;
-  height: 100%;
-  border-radius: 50%;
-  background: var(--dash-surface);
-  display: grid;
-  place-items: center;
-  color: var(--dash-navy);
-}
-
-.dashBrand__scales {
-  width: 44px;
-  height: 44px;
-}
-
-.dashBrand__text {
-  margin: 0;
-  font-size: 0.7rem;
-  font-weight: 700;
-  letter-spacing: 0.08em;
-  line-height: 1.4;
-  text-transform: uppercase;
-  color: rgba(255, 255, 255, 0.96);
-}
-
-.dashBrand__sub {
-  display: block;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  opacity: 0.88;
-  margin-top: 0.25rem;
-  font-size: 0.68rem;
-}
+/* --- Marca / sidebar (componente DashBrandLogo) --- */
 
 .dashNav {
   flex: 1;

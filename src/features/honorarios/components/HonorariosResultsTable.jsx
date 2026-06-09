@@ -115,6 +115,76 @@ function TipoDevolucionIcon() {
   )
 }
 
+function IconEstadoPendiente() {
+  return (
+    <svg className="honTable__estadoIcon" viewBox="0 0 16 16" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M8 1.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13Zm0 2a.75.75 0 0 1 .75.75v3.5l2.1 1.2-.75 1.3-2.6-1.5V4.25A.75.75 0 0 1 8 3.5Z"
+      />
+    </svg>
+  )
+}
+
+function IconEstadoPagado() {
+  return (
+    <svg className="honTable__estadoIcon" viewBox="0 0 16 16" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M13.5 2.5 6 10 2.5 6.5 1 8l5 5 9-9-1.5-1.5Z"
+      />
+    </svg>
+  )
+}
+
+function IconEstadoVigente() {
+  return (
+    <svg className="honTable__estadoIcon" viewBox="0 0 16 16" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M8 2a6 6 0 1 0 0 12A6 6 0 0 0 8 2Zm0 2.5a.75.75 0 0 1 .75.75v2.5H11a.75.75 0 0 1 0 1.5H8.75V11a.75.75 0 0 1-1.5 0V7.25H5a.75.75 0 0 1 0-1.5h2.25V5.25A.75.75 0 0 1 8 4.5Z"
+      />
+    </svg>
+  )
+}
+
+function IconEstadoTerminado() {
+  return (
+    <svg className="honTable__estadoIcon" viewBox="0 0 16 16" aria-hidden>
+      <path
+        fill="currentColor"
+        d="M6.5 1.5h3l.5 1.5H14v1.5H2V3h4.5l.5-1.5ZM4 5.5h8l-.8 7.2a1 1 0 0 1-1 .8H5.8a1 1 0 0 1-1-.8L4 5.5Z"
+      />
+    </svg>
+  )
+}
+
+/**
+ * @param {{
+ *   kind: 'boleta-pendiente' | 'boleta-pagado' | 'exhorto-vigente' | 'exhorto-terminado'
+ *   label: string
+ * }} props
+ */
+function EstadoBadge({ kind, label }) {
+  const icon =
+    kind === 'boleta-pendiente' ? (
+      <IconEstadoPendiente />
+    ) : kind === 'boleta-pagado' ? (
+      <IconEstadoPagado />
+    ) : kind === 'exhorto-vigente' ? (
+      <IconEstadoVigente />
+    ) : (
+      <IconEstadoTerminado />
+    )
+
+  return (
+    <span className={`honTable__estado honTable__estado--${kind}`}>
+      {icon}
+      <span className="honTable__estadoLabel">{label}</span>
+    </span>
+  )
+}
+
 /**
  * @param {number} total
  * @param {number} pageSize
@@ -206,7 +276,7 @@ export function HonorariosResultsTable({
                       Carátula
                     </span>
                   </th>
-                  <th scope="col">
+                  <th scope="col" className="honTable__colAbogado">
                     <span className="honTable__th">
                       <IconUser />
                       Abogado
@@ -239,13 +309,13 @@ export function HonorariosResultsTable({
                   <th scope="col" className="honTable__colEstado">
                     <span className="honTable__th">
                       <IconEdit />
-                      Estado boleta
+                      Boleta
                     </span>
                   </th>
                   <th scope="col" className="honTable__colEstado">
                     <span className="honTable__th">
                       <IconEdit />
-                      Estado exhorto
+                      Exhorto
                     </span>
                   </th>
                   <th scope="col" className="honTable__thActions">
@@ -317,26 +387,18 @@ export function HonorariosResultsTable({
                           {displayText(row.pertenece)}
                         </td>
                         <td className="honTable__estadoCell">
-                          <span
-                            className={`honTable__badge ${
-                              boletaPagada
-                                ? 'honTable__badge--success'
-                                : 'honTable__badge--danger'
-                            }`}
-                          >
-                            {boletaPagada ? 'Pagado' : 'Pendiente'}
-                          </span>
+                          <EstadoBadge
+                            kind={boletaPagada ? 'boleta-pagado' : 'boleta-pendiente'}
+                            label={boletaPagada ? 'Pagado' : 'Pendiente'}
+                          />
                         </td>
                         <td className="honTable__estadoCell">
-                          <span
-                            className={`honTable__badge ${
-                              exhortoTerminado
-                                ? 'honTable__badge--success'
-                                : 'honTable__badge--warning'
-                            }`}
-                          >
-                            {exhortoTerminado ? 'Terminado' : 'Vigente'}
-                          </span>
+                          <EstadoBadge
+                            kind={
+                              exhortoTerminado ? 'exhorto-terminado' : 'exhorto-vigente'
+                            }
+                            label={exhortoTerminado ? 'Terminado' : 'Vigente'}
+                          />
                         </td>
                         <td className="honTable__actions">
                           <div className="honTable__actionsGroup" role="group" aria-label="Acciones de boleta">
