@@ -35,50 +35,93 @@ $email_message = '
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Recuperación de contraseña</title>
+  <style type="text/css">
+    body {
+      margin: 0;
+      padding: 0;
+      background-color: #ededed;
+      -webkit-text-size-adjust: 100%;
+      -ms-text-size-adjust: 100%;
+    }
+    table { border-collapse: collapse; mso-table-lspace: 0; mso-table-rspace: 0; }
+    .email-code {
+      margin: 0;
+      font-size: 24px;
+      font-weight: 700;
+      letter-spacing: 0.1em;
+      color: #0d2142;
+      font-family: Consolas, Monaco, "Courier New", monospace;
+      line-height: 1.3;
+      word-break: break-word;
+    }
+    .email-body-text {
+      margin: 0 0 18px;
+      font-size: 14px;
+      line-height: 1.55;
+      color: #334155;
+      text-align: left;
+    }
+  </style>
+  <style type="text/css">
+    @media only screen and (max-width: 480px) {
+      .email-outer-pad { padding: 14px 8px !important; }
+      .email-header-pad { padding: 16px 16px !important; }
+      .email-inner-pad { padding: 18px 16px !important; }
+      .email-footer-pad { padding: 12px 16px !important; }
+      .email-title { font-size: 17px !important; line-height: 1.3 !important; }
+      .email-code-box { padding: 14px 10px !important; }
+      .email-code { font-size: 22px !important; letter-spacing: 0.08em !important; }
+      .email-code-label { font-size: 11px !important; letter-spacing: 0.05em !important; }
+    }
+    @media only screen and (min-width: 481px) {
+      .email-body-text { font-size: 13px; text-align: justify; }
+      .email-code { font-size: 32px; letter-spacing: 0.28em; }
+    }
+  </style>
 </head>
 <body style="margin:0;padding:0;background-color:#ededed;">
   <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%" bgcolor="#ededed">
     <tr>
-      <td align="center" style="padding:24px 12px;">
+      <td align="center" class="email-outer-pad" style="padding:24px 12px;">
         <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="600" style="max-width:600px;width:100%;background-color:#ffffff;border-radius:8px;overflow:hidden;">
           <tr>
-            <td style="padding:20px 24px;background:linear-gradient(145deg,#081428 0%,#0d2142 55%,#132a52 100%);">
+            <td class="email-header-pad" style="padding:20px 24px;background:linear-gradient(145deg,#081428 0%,#0d2142 55%,#132a52 100%);">
               <p style="margin:0 0 6px;font-family:Arial,Helvetica,sans-serif;font-size:11px;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#eb5e28;">
                 A &amp; G Asociados
               </p>
-              <h1 style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:20px;font-weight:700;color:#ffffff;">
+              <h1 class="email-title" style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:20px;font-weight:700;line-height:1.25;color:#ffffff;">
                 Recuperación de contraseña
               </h1>
             </td>
           </tr>
           <tr>
-            <td style="padding:24px;font-family:Arial,Helvetica,sans-serif;color:#003366;">
+            <td class="email-inner-pad" style="padding:24px;font-family:Arial,Helvetica,sans-serif;color:#003366;">
               <p style="margin:0 0 12px;font-size:14px;line-height:1.5;">
                 <strong>Hola,</strong>
               </p>
-              <p style="margin:0 0 20px;font-size:13px;line-height:1.6;color:#334155;text-align:justify;">
+              <p class="email-body-text">
                 Recibimos una solicitud para restablecer tu contraseña. Ingresa el siguiente código
                 en la pantalla de recuperación de la aplicación.
               </p>
               <table role="presentation" border="0" cellpadding="0" cellspacing="0" width="100%">
                 <tr>
-                  <td align="center" style="padding:16px 12px;background-color:#f4f6fa;border:1px solid #dce3ee;border-radius:8px;">
-                    <p style="margin:0 0 8px;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5c6578;">
+                  <td align="center" class="email-code-box" style="padding:16px 12px;background-color:#f4f6fa;border:1px solid #dce3ee;border-radius:8px;">
+                    <p class="email-code-label" style="margin:0 0 8px;font-size:12px;font-weight:600;letter-spacing:0.08em;text-transform:uppercase;color:#5c6578;">
                       Tu código de verificación
                     </p>
-                    <p style="margin:0;font-size:32px;font-weight:700;letter-spacing:0.35em;color:#0d2142;font-family:Consolas,Monaco,monospace;">
+                    <p class="email-code">
                       ' . $codigo_html . '
                     </p>
                   </td>
                 </tr>
               </table>
-              <p style="margin:20px 0 0;font-size:12px;line-height:1.5;color:#64748b;">
+              <p style="margin:18px 0 0;font-size:12px;line-height:1.5;color:#64748b;">
                 Si no solicitaste este cambio, ignora este mensaje. El código es de un solo uso.
               </p>
             </td>
           </tr>
           <tr>
-            <td style="padding:14px 24px;background-color:#f8fafc;border-top:1px solid #e2e8f0;">
+            <td class="email-footer-pad" style="padding:14px 24px;background-color:#f8fafc;border-top:1px solid #e2e8f0;">
               <p style="margin:0;font-family:Arial,Helvetica,sans-serif;font-size:11px;line-height:1.4;color:#94a3b8;text-align:center;">
                 Tramitador Exhorto · Mensaje automático, no responder
               </p>

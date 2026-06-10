@@ -2,6 +2,10 @@
   margin-top: 1.35rem;
   padding-top: 1.2rem;
   border-top: 1px solid var(--dash-border, #dce3ee);
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+  box-sizing: border-box;
 }
 
 .exhortosTable__header {
@@ -357,13 +361,204 @@
   border: 0;
 }
 
-@media (max-width: 640px) {
+/* Móvil / tablet: tarjetas a ancho completo (sin scroll horizontal) */
+@media (max-width: 768px) {
+  .exhortosTableWrap {
+    margin-top: 1rem;
+    padding: 1rem 0.85rem 0.15rem;
+    overflow-x: hidden;
+  }
+
+  .exhortosTable__header {
+    flex-direction: column;
+    align-items: stretch;
+    padding: 0;
+    gap: 0.65rem;
+  }
+
+  .exhortosTable__title {
+    font-size: 0.76rem;
+    line-height: 1.4;
+  }
+
+  .exhortosTable__count {
+    display: block;
+    margin-top: 0.15rem;
+    font-size: 0.74rem;
+  }
+
+  .exhortosTable__export {
+    width: 100%;
+    justify-content: center;
+    padding: 0.55rem 0.85rem;
+    box-sizing: border-box;
+  }
+
+  .exhortosTable__staleFilters {
+    margin-inline: 0;
+    font-size: 0.78rem;
+  }
+
+  .exhortosTable__empty {
+    margin-inline: 0;
+    box-sizing: border-box;
+  }
+
+  .exhortosTableScroll {
+    width: 100%;
+    max-width: 100%;
+    overflow-x: hidden;
+    border: none;
+    background: transparent;
+  }
+
+  .exhortosTable {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    font-size: 0.8rem;
+    table-layout: auto;
+  }
+
+  .exhortosTable thead {
+    display: none;
+  }
+
+  .exhortosTable tbody {
+    display: block;
+    width: 100%;
+  }
+
+  .exhortosTable tbody tr {
+    display: block;
+    width: 100%;
+    max-width: 100%;
+    box-sizing: border-box;
+    margin-bottom: 0.75rem;
+    border: 1px solid var(--dash-border, #dce3ee);
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: 0 1px 3px rgba(13, 33, 66, 0.05);
+    overflow: hidden;
+  }
+
+  .exhortosTable tbody tr:hover {
+    background: #fff;
+  }
+
+  .exhortosTable tbody tr:last-child {
+    margin-bottom: 0;
+  }
+
+  .exhortosTable td {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.3rem;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    box-sizing: border-box;
+    padding: 0.55rem 0.75rem;
+    border-bottom: 1px solid #eef2f7;
+    text-align: left;
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .exhortosTable td::before {
+    content: attr(data-label);
+    flex: none;
+    width: 100%;
+    font-size: 0.62rem;
+    font-weight: 800;
+    letter-spacing: 0.05em;
+    text-transform: uppercase;
+    color: #4a5d7c;
+    line-height: 1.35;
+  }
+
+  .exhortosTable td:last-child {
+    border-bottom: none;
+  }
+
+  .exhortosTable__caratula {
+    max-width: 100%;
+    width: 100%;
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .exhortosTable__caratulaLine {
+    overflow-wrap: anywhere;
+    word-break: break-word;
+  }
+
+  .exhortosTable__facultades {
+    max-width: 100%;
+    width: 100%;
+    text-align: left;
+  }
+
+  .exhortosTable__actions {
+    flex-direction: row;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    gap: 0.4rem;
+    white-space: normal;
+    width: 100%;
+  }
+
+  .exhortosTable__badge {
+    min-width: 0;
+    max-width: 100%;
+  }
+
+  .exhortosTable__action {
+    width: 1.85rem;
+    height: 1.85rem;
+    margin-right: 0;
+    flex-shrink: 0;
+  }
+
+  .exhortosTable__loadingCell {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 1.25rem 0.75rem !important;
+    border-bottom: none;
+  }
+
+  .exhortosTable__loadingCell::before {
+    display: none;
+  }
+
   .exhortosPagination {
     flex-direction: column;
     align-items: stretch;
+    padding-inline: 0;
+  }
+
+  .exhortosPagination__info {
+    text-align: center;
+    font-size: 0.76rem;
   }
 
   .exhortosPagination__controls {
     justify-content: space-between;
+    width: 100%;
+  }
+
+  .exhortosPagination__btn {
+    flex: 1;
+    max-width: 7.5rem;
+    text-align: center;
+  }
+
+  .exhortosPagination__pages {
+    flex: 1;
+    text-align: center;
+    font-size: 0.76rem;
   }
 }

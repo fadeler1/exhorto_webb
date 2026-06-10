@@ -236,22 +236,22 @@ export function ExhortosResultsTable({
 
                     return (
                       <tr key={row.id ?? `row-${page}-${index}`}>
-                        <td>
+                        <td data-label="Carátula">
                           <CaratulaCell
                             nombreCliente={row.nombreCliente}
                             apellidoDeudor={row.apellidoDeudor}
                           />
                         </td>
-                        <td className="exhortosTable__facultades">
+                        <td className="exhortosTable__facultades" data-label="Facultades">
                           {displayText(row.facultades).toUpperCase()}
                         </td>
-                        <td>{displayText(row.abogado).toUpperCase()}</td>
-                        <td>{displayText(row.ciudad).toUpperCase()}</td>
-                        <td>
+                        <td data-label="Abogado">{displayText(row.abogado).toUpperCase()}</td>
+                        <td data-label="Ciudad">{displayText(row.ciudad).toUpperCase()}</td>
+                        <td data-label="Estado">
                           <EstadoBadge estado={row.estado} />
                         </td>
                         {hasActions ? (
-                          <td className="exhortosTable__actions">
+                          <td className="exhortosTable__actions" data-label="Acciones">
                             {onHonorario && !row.tieneBoletaHonorario ? (
                               <button
                                 type="button"
