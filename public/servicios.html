@@ -529,6 +529,26 @@
         filter: brightness(1.08);
       }
 
+      .cta__contactFeedback {
+        margin: 0.65rem 0 0;
+        padding: 0.65rem 0.85rem;
+        border-radius: 8px;
+        font-size: 0.85rem;
+        line-height: 1.45;
+        color: rgba(255, 255, 255, 0.95);
+        background: rgba(255, 255, 255, 0.1);
+        border: 1px solid rgba(255, 255, 255, 0.18);
+      }
+
+      .cta__contactFeedback a {
+        color: var(--accent);
+        font-weight: 600;
+      }
+
+      .cta__contactFeedback a:hover {
+        text-decoration: underline;
+      }
+
       /* Footer */
       .footer {
         padding: 2rem 0;
@@ -834,10 +854,17 @@
               </p>
             </div>
             <div class="cta__contact">
-              <span><strong>Correo:</strong> <a href="mailto:contacto@agyasociados.cl">contacto@agyasociados.cl</a></span>
-              <span><strong>Teléfono:</strong> <a href="tel:+56200000000">+56 2 0000 0000</a></span>
+              <span><strong>Correo:</strong> <a id="contactEmailLink" href="#">patricia.abarca@tramitadorexhorto.cl</a></span>
+              <span><strong>Teléfono:</strong> <a href="tel:+56233403887">(56) 233403887</a></span>
               <span><strong>Horario:</strong> Lunes a viernes, 09:00 – 18:00 hrs.</span>
-              <a class="btn btn--primary" href="mailto:contacto@agyasociados.cl">Escribir ahora</a>
+              <a
+                class="btn btn--primary"
+                id="contactEmailBtn"
+                href="https://mail.google.com/mail/?view=cm&amp;fs=1&amp;to=patricia.abarca@tramitadorexhorto.cl&amp;su=Consulta%20-%20Tramitaci%C3%B3n%20de%20exhortos"
+                target="_blank"
+                rel="noopener noreferrer"
+              >Escribir ahora</a>
+              <p class="cta__contactFeedback" id="contactFeedback" role="status" aria-live="polite" hidden></p>
             </div>
           </div>
         </div>
@@ -862,6 +889,26 @@
       const nav = document.getElementById('mainNav')
       toggle?.addEventListener('click', () => {
         nav.classList.toggle('is-open')
+      })
+
+      const CONTACT_EMAIL = 'patricia.abarca@tramitadorexhorto.cl'
+      const contactFeedback = document.getElementById('contactFeedback')
+      const contactEmailLink = document.getElementById('contactEmailLink')
+
+      function showContactFeedback(message) {
+        if (!contactFeedback) return
+        contactFeedback.textContent = message
+        contactFeedback.hidden = false
+      }
+
+      contactEmailLink?.addEventListener('click', async (event) => {
+        event.preventDefault()
+        try {
+          await navigator.clipboard.writeText(CONTACT_EMAIL)
+          showContactFeedback('Correo copiado al portapapeles.')
+        } catch {
+          showContactFeedback('Correo: ' + CONTACT_EMAIL)
+        }
       })
     </script>
   </body>
