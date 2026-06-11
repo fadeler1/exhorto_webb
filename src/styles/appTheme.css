@@ -1,0 +1,32 @@
+/**
+ * Paleta pastel global — menor contraste y sin blancos/azules intensos
+ * para usuarios con sensibilidad visual.
+ */
+:root {
+  --app-navy: #5f7a96;
+  --app-navy-mid: #6f8ca6;
+  --app-navy-deep: #516b84;
+  --app-navy-soft: rgba(95, 122, 150, 0.12);
+
+  --app-accent: #e89674;
+  --app-accent-mid: #d98566;
+  --app-accent-dark: #c47255;
+  --app-accent-soft: rgba(232, 150, 116, 0.18);
+
+  --app-surface: #faf6f2;
+  --app-surface-2: #eef3f8;
+  --app-page-bg: #e4ebf3;
+  --app-page-bg-alt: #edf2f8;
+
+  --app-text: #47586b;
+  --app-text-muted: #6f8094;
+  --app-border: #cdd8e6;
+  --app-link: #6d94b8;
+  --app-link-hover: #5a7fa3;
+
+  --app-radius: 14px;
+  --app-radius-sm: 10px;
+  --app-shadow:
+    0 1px 3px rgba(79, 100, 120, 0.06),
+    0 16px 40px -24px rgba(79, 100, 120, 0.12);
+}

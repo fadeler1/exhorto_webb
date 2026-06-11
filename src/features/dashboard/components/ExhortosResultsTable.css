@@ -328,7 +328,7 @@
   padding: 0.38rem 0.85rem;
   border: 1px solid var(--dash-border, #dce3ee);
   border-radius: 6px;
-  background: #fff;
+  background: var(--dash-surface);
   font-size: 0.75rem;
   font-weight: 700;
   color: var(--dash-navy, #0d2142);
@@ -438,13 +438,13 @@
     margin-bottom: 0.75rem;
     border: 1px solid var(--dash-border, #dce3ee);
     border-radius: 10px;
-    background: #fff;
+    background: var(--dash-surface);
     box-shadow: 0 1px 3px rgba(13, 33, 66, 0.05);
     overflow: hidden;
   }
 
   .exhortosTable tbody tr:hover {
-    background: #fff;
+    background: var(--dash-surface);
   }
 
   .exhortosTable tbody tr:last-child {

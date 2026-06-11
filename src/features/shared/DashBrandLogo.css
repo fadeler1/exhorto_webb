@@ -16,11 +16,11 @@
   aspect-ratio: 1;
   object-fit: contain;
   border-radius: 8px;
-  background: rgba(255, 255, 255, 0.97);
+  background: var(--app-surface, #faf6f2);
   padding: 9px;
   box-shadow:
-    0 4px 20px rgba(0, 0, 0, 0.2),
-    0 0 0 1px rgba(255, 255, 255, 0.25);
+    0 4px 16px rgba(71, 88, 107, 0.16),
+    0 0 0 1px rgba(255, 255, 255, 0.35);
 }
 
 .dashBrandLogo__text {

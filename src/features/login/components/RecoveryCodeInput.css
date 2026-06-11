@@ -17,7 +17,7 @@
   border: 1px solid var(--login-border, #dce3ee);
   border-radius: var(--login-radius-sm, 8px);
   background: var(--login-surface-2, #f4f6fa);
-  color: var(--login-text, #0d2142);
+  color: var(--login-text, var(--app-text));
   font-size: 1.35rem;
   font-weight: 700;
   font-variant-numeric: tabular-nums;
@@ -31,12 +31,12 @@
 
 .recoveryCodeInput__digit:hover:not(:disabled) {
   border-color: #c9d4e6;
-  background: #fff;
+  background: var(--app-surface, #faf6f2);
 }
 
 .recoveryCodeInput__digit:focus-visible {
-  border-color: var(--login-navy-mid, #132a52);
-  background: #fff;
+  border-color: var(--login-navy-mid, var(--app-navy-mid));
+  background: var(--app-surface, #faf6f2);
   box-shadow:
     0 0 0 3px rgba(13, 33, 66, 0.08),
     0 0 0 1px rgba(235, 94, 40, 0.14);

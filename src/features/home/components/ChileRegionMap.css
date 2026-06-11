@@ -59,7 +59,7 @@
 
 .regionMap__layout {
   display: grid;
-  grid-template-columns: minmax(320px, 1.65fr) minmax(180px, 0.5fr);
+  grid-template-columns: minmax(0, 1fr) minmax(220px, 22rem);
   gap: 1.35rem;
   align-items: start;
 }

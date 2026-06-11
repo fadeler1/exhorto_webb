@@ -1,17 +1,17 @@
-/* Identidad alineada al logo / login: navy #0D2142, acento #EB5E28 */
+/* Paleta pastel alineada a appTheme.css */
 .dashApp {
-  --dash-navy: #0d2142;
-  --dash-navy-mid: #132a52;
-  --dash-navy-deep: #081428;
-  --dash-accent: #eb5e28;
-  --dash-accent-mid: #d64d1f;
-  --dash-accent-soft: rgba(235, 94, 40, 0.12);
-  --dash-surface: #ffffff;
-  --dash-surface-2: #f4f6fa;
-  --dash-page-bg: #e8ecf4;
-  --dash-text: #0d2142;
-  --dash-text-muted: #4a5d7c;
-  --dash-border: #dce3ee;
+  --dash-navy: var(--app-navy);
+  --dash-navy-mid: var(--app-navy-mid);
+  --dash-navy-deep: var(--app-navy-deep);
+  --dash-accent: var(--app-accent);
+  --dash-accent-mid: var(--app-accent-mid);
+  --dash-accent-soft: var(--app-accent-soft);
+  --dash-surface: var(--app-surface);
+  --dash-surface-2: var(--app-surface-2);
+  --dash-page-bg: var(--app-page-bg);
+  --dash-text: var(--app-text);
+  --dash-text-muted: var(--app-text-muted);
+  --dash-border: var(--app-border);
   --dash-sidebar-w: 272px;
   --dash-radius: 14px;
   --dash-radius-sm: 10px;
@@ -30,9 +30,9 @@
     sans-serif;
   color: var(--dash-text);
   background:
-    radial-gradient(ellipse 120% 80% at 100% 0%, rgba(235, 94, 40, 0.06) 0%, transparent 45%),
-    radial-gradient(ellipse 90% 70% at 0% 100%, rgba(13, 33, 66, 0.05) 0%, transparent 50%),
-    linear-gradient(180deg, var(--dash-page-bg) 0%, #eef2f9 100%);
+    radial-gradient(ellipse 120% 80% at 100% 0%, rgba(232, 150, 116, 0.1) 0%, transparent 45%),
+    radial-gradient(ellipse 90% 70% at 0% 100%, rgba(95, 122, 150, 0.08) 0%, transparent 50%),
+    linear-gradient(180deg, var(--dash-page-bg) 0%, var(--app-page-bg-alt) 100%);
   -webkit-font-smoothing: antialiased;
 }
 
@@ -103,7 +103,7 @@
 }
 
 .dashNav__btn--active {
-  background: rgba(235, 94, 40, 0.14);
+  background: rgba(232, 150, 116, 0.2);
   border-left-color: var(--dash-accent);
   color: #fff;
   box-shadow: 0 1px 0 rgba(0, 0, 0, 0.12) inset;
@@ -166,7 +166,7 @@
   list-style: none;
   margin: 0;
   padding: 0.15rem 0 0.35rem 0.65rem;
-  border-left: 2px solid rgba(235, 94, 40, 0.45);
+  border-left: 2px solid rgba(232, 150, 116, 0.55);
   margin-left: 0.95rem;
 }
 
@@ -186,7 +186,7 @@
   gap: 0.75rem 1.25rem;
   padding: 0.7rem 1.25rem 0.7rem 1rem;
   min-height: 3.5rem;
-  background: linear-gradient(180deg, #ffffff 0%, #f5f7fb 100%);
+  background: linear-gradient(180deg, var(--dash-surface) 0%, var(--dash-surface-2) 100%);
   border-bottom: 1px solid var(--dash-border);
   box-shadow: 0 1px 0 rgba(255, 255, 255, 0.8) inset;
   position: relative;
@@ -232,7 +232,7 @@
 
 .dashTop__menu:hover {
   background: var(--dash-surface-2);
-  border-color: rgba(13, 33, 66, 0.12);
+  border-color: rgba(95, 122, 150, 0.16);
 }
 
 .dashTop__menuBar {
@@ -335,13 +335,15 @@
 /* --- Contenido principal --- */
 .dashMain {
   flex: 1;
-  padding: 0.75rem 1.25rem 1.5rem;
+  width: 100%;
+  padding: 0.75rem clamp(0.85rem, 1.5vw, 1.75rem) 1.5rem;
   overflow-x: hidden;
 }
 
 .dashMain__inner {
-  max-width: 1180px;
-  margin: 0 auto;
+  width: 100%;
+  max-width: none;
+  margin: 0;
 }
 
 .dashMain__pageHead {
@@ -397,7 +399,7 @@
 .dashCard {
   background: var(--dash-surface);
   border-radius: var(--dash-radius);
-  border: 1px solid rgba(13, 33, 66, 0.07);
+  border: 1px solid rgba(95, 122, 150, 0.1);
   box-shadow: var(--dash-shadow);
   padding: 0;
   overflow: hidden;
@@ -406,7 +408,7 @@
 .dashCard__head {
   padding: 0.95rem 1.3rem 0.8rem;
   border-bottom: 1px solid var(--dash-border);
-  background: linear-gradient(180deg, #fafbfd 0%, var(--dash-surface) 100%);
+  background: linear-gradient(180deg, var(--dash-surface-2) 0%, var(--dash-surface) 100%);
 }
 
 .dashCard__title {
@@ -551,7 +553,7 @@
   padding: 0.65rem 0.85rem 0.75rem;
   border: 1px solid var(--dash-border);
   border-radius: 10px;
-  background: linear-gradient(180deg, #fbfcfe 0%, #f7f9fc 100%);
+  background: linear-gradient(180deg, var(--dash-surface-2) 0%, var(--dash-surface) 100%);
 }
 
 .dashField--abogado {
@@ -610,7 +612,7 @@
   padding: 0.55rem 1.1rem;
   border: 1px solid var(--dash-border);
   border-radius: 10px;
-  background: #fff;
+  background: var(--dash-surface);
 }
 
 .dashForm__diligenciaField {

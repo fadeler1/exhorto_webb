@@ -12,34 +12,34 @@
   --pro-font-serif: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   --pro-font-mono: ui-monospace, 'Cascadia Code', 'SF Mono', Menlo, Consolas, monospace;
 
-  --pro-text: var(--dash-text, #0d2142);
-  --pro-text-secondary: var(--dash-text-muted, #4a5d7c);
-  --pro-text-tertiary: #7a8ba8;
+  --pro-text: var(--dash-text, var(--app-text));
+  --pro-text-secondary: var(--dash-text-muted, var(--app-text-muted));
+  --pro-text-tertiary: #8a9aad;
 
-  --pro-navy: var(--dash-navy, #0d2142);
-  --pro-navy-mid: var(--dash-navy-mid, #132a52);
-  --pro-accent: var(--dash-accent, #eb5e28);
-  --pro-accent-soft: var(--dash-accent-soft, rgba(235, 94, 40, 0.1));
-  --pro-accent-muted: rgba(235, 94, 40, 0.06);
+  --pro-navy: var(--dash-navy, var(--app-navy));
+  --pro-navy-mid: var(--dash-navy-mid, var(--app-navy-mid));
+  --pro-accent: var(--dash-accent, var(--app-accent));
+  --pro-accent-soft: var(--dash-accent-soft, var(--app-accent-soft));
+  --pro-accent-muted: rgba(232, 150, 116, 0.08);
 
-  --pro-border: var(--dash-border, #dce3ee);
-  --pro-border-subtle: #e8edf4;
-  --pro-surface: var(--dash-surface, #ffffff);
-  --pro-surface-muted: var(--dash-surface-2, #f6f8fb);
-  --pro-surface-elevated: #ffffff;
+  --pro-border: var(--dash-border, var(--app-border));
+  --pro-border-subtle: #dde6f0;
+  --pro-surface: var(--dash-surface, var(--app-surface));
+  --pro-surface-muted: var(--dash-surface-2, var(--app-surface-2));
+  --pro-surface-elevated: var(--app-surface);
 
   --pro-card-radius: 16px;
   --pro-input-radius: 10px;
   --pro-table-radius: 12px;
 
-  --pro-table-head-bg: #f4f6fa;
+  --pro-table-head-bg: var(--app-surface-2);
   --pro-table-head-color: var(--pro-navy-mid);
   --pro-table-border: var(--pro-border);
-  --pro-row-hover: #f3f6fb;
-  --pro-row-stripe: #fafbfd;
+  --pro-row-hover: #e8eef5;
+  --pro-row-stripe: #f3f6fa;
 
-  --pro-link: #1a4d8c;
-  --pro-link-hover: var(--pro-navy);
+  --pro-link: var(--app-link);
+  --pro-link-hover: var(--app-link-hover);
 
   --pro-success: #1f6b42;
   --pro-success-soft: #e8f4ec;
@@ -50,13 +50,13 @@
   --pro-warning: #9a6b14;
   --pro-warning-soft: #faf5e8;
   --pro-warning-border: #ead9b0;
-  --pro-primary: #1a4d8c;
-  --pro-info: #2a6f8a;
-  --pro-info-soft: #e8f2f6;
-  --pro-info-border: #bdd4e0;
+  --pro-primary: var(--app-link);
+  --pro-info: #6d94b8;
+  --pro-info-soft: #e8f0f7;
+  --pro-info-border: #c5d5e4;
 
-  --pro-navy-btn: linear-gradient(180deg, #1a3a6b 0%, var(--pro-navy) 100%);
-  --pro-accent-btn: linear-gradient(180deg, #f0784f 0%, var(--pro-accent) 100%);
+  --pro-navy-btn: linear-gradient(180deg, #7a94b0 0%, var(--pro-navy) 100%);
+  --pro-accent-btn: linear-gradient(180deg, #efb08f 0%, var(--pro-accent) 100%);
 
   --pro-shadow-card:
     0 1px 2px rgba(13, 33, 66, 0.04),

@@ -59,7 +59,7 @@
   top: 0;
   height: 5px;
   border-radius: 22px 22px 0 0;
-  background: linear-gradient(90deg, #0d2142 0%, #132a52 55%, #eb5e28 100%);
+  background: linear-gradient(90deg, #8aa8c4 0%, #7a97b5 55%, var(--app-accent) 100%);
   transform: none;
   box-shadow: 0 1px 2px rgba(13, 33, 66, 0.1);
 }
@@ -110,7 +110,7 @@
   font-family: 'Source Serif 4', Georgia, 'Times New Roman', serif;
   font-size: 1.25rem;
   font-weight: 650;
-  color: #0d2142;
+  color: var(--app-text);
   letter-spacing: -0.02em;
   line-height: 1.25;
 }
@@ -118,7 +118,7 @@
 .confirmDialog__message {
   margin: 0;
   font-size: 0.9375rem;
-  color: #0d2142;
+  color: var(--app-text);
   line-height: 1.5;
 }
 
@@ -168,8 +168,8 @@
 
 .confirmDialog__btn--secondary {
   border: 1px solid #d6dfec;
-  background: linear-gradient(180deg, #ffffff 0%, #f6f8fb 100%);
-  color: #0d2142;
+  background: linear-gradient(180deg, var(--app-surface) 0%, var(--app-surface-2) 100%);
+  color: var(--app-text);
   box-shadow:
     0 1px 0 rgba(255, 255, 255, 0.9) inset,
     0 1px 2px rgba(13, 33, 66, 0.05);
