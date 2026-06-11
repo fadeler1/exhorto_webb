@@ -239,6 +239,7 @@ export function ExhortoDiligenciasPage() {
    * @param {{
    *   documento: number
    *   receptor: string
+   *   diligenciaEtiquetaLegacy?: string
    *   monto: number
    * }} payload
    */
@@ -251,6 +252,7 @@ export function ExhortoDiligenciasPage() {
         documento: payload.documento,
         receptor: payload.receptor,
         monto: payload.monto,
+        diligenciaEtiquetaLegacy: payload.diligenciaEtiquetaLegacy,
       })
       if (!result.ok) {
         if (result.status === 401) {
@@ -519,6 +521,9 @@ export function ExhortoDiligenciasPage() {
                         <p className="diligBoletas__meta">
                           Monto: ${b.monto.toLocaleString('es-CL')}
                         </p>
+                        {b.diligenciaEtiquetaLegacy ? (
+                          <p className="diligList__obs">{display(b.diligenciaEtiquetaLegacy)}</p>
+                        ) : null}
                       </div>
                       <button
                         type="button"

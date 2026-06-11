@@ -338,7 +338,12 @@ export async function removeDiligencia(apiClient, exhortoId, diligenciaId) {
 /**
  * @param {ReturnType<import('./apiClient.js').createApiClient>} apiClient
  * @param {string} exhortoId
- * @param {{ receptor: string, documento: number, monto: number }} body
+ * @param {{
+ *   receptor: string
+ *   documento: number
+ *   monto: number
+ *   diligenciaEtiquetaLegacy?: string
+ * }} body
  */
 export async function addBoletaReceptor(apiClient, exhortoId, body) {
   return apiClient.post(`/exhortos/${exhortoId}/boletas-receptor`, body)

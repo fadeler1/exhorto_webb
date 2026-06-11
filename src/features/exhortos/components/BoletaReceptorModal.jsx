@@ -30,6 +30,7 @@ function parseDocumento(value) {
  *   onSave: (payload: {
  *     documento: number
  *     receptor: string
+ *     diligenciaEtiquetaLegacy?: string
  *     monto: number
  *   }) => void | Promise<void>
  * }} props
@@ -45,12 +46,14 @@ export function BoletaReceptorModal({
   const numeroRef = useRef(null)
   const [numeroBoleta, setNumeroBoleta] = useState('')
   const [receptor, setReceptor] = useState('')
+  const [observaciones, setObservaciones] = useState('')
   const [monto, setMonto] = useState('')
   const [localError, setLocalError] = useState(/** @type {string | null} */ (null))
 
   const reset = useCallback(() => {
     setNumeroBoleta('')
     setReceptor('')
+    setObservaciones('')
     setMonto('')
     setLocalError(null)
   }, [])
@@ -109,9 +112,11 @@ export function BoletaReceptorModal({
       return
     }
 
+    const observacionesTrim = observaciones.trim()
     await onSave({
       documento,
       receptor: receptorTrim,
+      diligenciaEtiquetaLegacy: observacionesTrim || undefined,
       monto: montoNum,
     })
   }
@@ -177,6 +182,21 @@ export function BoletaReceptorModal({
               value={receptor}
               onChange={(ev) => {
                 setReceptor(ev.target.value)
+                setLocalError(null)
+              }}
+              disabled={isSaving}
+            />
+          </label>
+
+          <label className="boletaModal__field" htmlFor="boleta-observaciones">
+            <span className="boletaModal__label">Observaciones</span>
+            <textarea
+              id="boleta-observaciones"
+              className="boletaModal__textarea"
+              rows={4}
+              value={observaciones}
+              onChange={(ev) => {
+                setObservaciones(ev.target.value)
                 setLocalError(null)
               }}
               disabled={isSaving}
