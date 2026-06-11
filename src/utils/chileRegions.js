@@ -1,88 +1,114 @@
 import { fixLegacyEncoding } from './fixLegacyEncoding.js'
 
-/** @type {{ code: string, name: string, path: string }[]} */
-export const CHILE_REGIONS = [
-  {
-    code: 'CL-AP',
-    name: 'Arica y Parinacota',
-    path: 'M72 8h56v28H72z',
+/** Estilo visual alineado al mapa oficial de regiones de Chile. */
+export const CHILE_REGION_DISPLAY = {
+  'CL-AP': {
+    roman: 'XV',
+    short: 'Arica y Parinacota',
+    label: 'Región de Arica y Parinacota',
+    color: '#7a1f32',
   },
-  {
-    code: 'CL-TA',
-    name: 'Tarapacá',
-    path: 'M72 38h56v28H72z',
+  'CL-TA': {
+    roman: 'I',
+    short: 'Tarapacá',
+    label: 'Región de Tarapacá',
+    color: '#e31b23',
   },
-  {
-    code: 'CL-AN',
-    name: 'Antofagasta',
-    path: 'M76 68h48v32H76z',
+  'CL-AN': {
+    roman: 'II',
+    short: 'Antofagasta',
+    label: 'Región de Antofagasta',
+    color: '#f68b1f',
   },
-  {
-    code: 'CL-AT',
-    name: 'Atacama',
-    path: 'M80 102h40v28H80z',
+  'CL-AT': {
+    roman: 'III',
+    short: 'Atacama',
+    label: 'Región de Atacama',
+    color: '#ffd200',
   },
-  {
-    code: 'CL-CO',
-    name: 'Coquimbo',
-    path: 'M84 132h32v26H84z',
+  'CL-CO': {
+    roman: 'IV',
+    short: 'Coquimbo',
+    label: 'Región de Coquimbo',
+    color: '#8dc63f',
   },
-  {
-    code: 'CL-VS',
-    name: 'Valparaíso',
-    path: 'M70 160h60v24H70z',
+  'CL-VS': {
+    roman: 'V',
+    short: 'Valparaíso',
+    label: 'Región de Valparaíso',
+    color: '#b71c2c',
   },
-  {
-    code: 'CL-RM',
-    name: 'Metropolitana',
-    path: 'M88 186h24v22H88z',
+  'CL-RM': {
+    roman: 'RM',
+    short: 'Metropolitana',
+    label: 'Región Metropolitana de Santiago',
+    color: '#ed1c24',
   },
-  {
-    code: 'CL-LI',
-    name: "O'Higgins",
-    path: 'M86 210h28v24H86z',
+  'CL-LI': {
+    roman: 'VI',
+    short: "O'Higgins",
+    label: "Región del Libertador Bernardo O'Higgins",
+    color: '#f15a24',
   },
-  {
-    code: 'CL-ML',
-    name: 'Maule',
-    path: 'M84 236h32v26H84z',
+  'CL-ML': {
+    roman: 'VII',
+    short: 'Maule',
+    label: 'Región del Maule',
+    color: '#ffdd00',
   },
-  {
-    code: 'CL-NB',
-    name: 'Ñuble',
-    path: 'M86 264h28v22H86z',
+  'CL-NB': {
+    roman: 'XVI',
+    short: 'Ñuble',
+    label: 'Región de Ñuble',
+    color: '#39b54a',
   },
-  {
-    code: 'CL-BI',
-    name: 'Biobío',
-    path: 'M82 288h36v28H82z',
+  'CL-BI': {
+    roman: 'VIII',
+    short: 'Biobío',
+    label: 'Región del Bío-Bío',
+    color: '#006838',
   },
-  {
-    code: 'CL-AR',
-    name: 'Araucanía',
-    path: 'M84 318h32v26H84z',
+  'CL-AR': {
+    roman: 'IX',
+    short: 'Araucanía',
+    label: 'Región de La Araucanía',
+    color: '#8b1a2e',
   },
-  {
-    code: 'CL-LR',
-    name: 'Los Ríos',
-    path: 'M80 346h40v24H80z',
+  'CL-LR': {
+    roman: 'XIV',
+    short: 'Los Ríos',
+    label: 'Región de Los Ríos',
+    color: '#d91f26',
   },
-  {
-    code: 'CL-LL',
-    name: 'Los Lagos',
-    path: 'M76 372h48v28H76z',
+  'CL-LL': {
+    roman: 'X',
+    short: 'Los Lagos',
+    label: 'Región de Los Lagos',
+    color: '#7ac143',
   },
-  {
-    code: 'CL-AI',
-    name: 'Aysén',
-    path: 'M78 402h44v30H78z',
+  'CL-AI': {
+    roman: 'XI',
+    short: 'Aysén',
+    label: 'Región de Aysén del General Ibáñez del Campo',
+    color: '#f7941d',
   },
-  {
-    code: 'CL-MA',
-    name: 'Magallanes',
-    path: 'M74 434h52v34H74z',
+  'CL-MA': {
+    roman: 'XII',
+    short: 'Magallanes',
+    label: 'Región de Magallanes y Antártica Chilena',
+    color: '#92278f',
   },
-]
+}
+
+/** Metadatos regionales (sin geometría; el mapa la carga aparte). */
+export const CHILE_REGIONS = Object.entries(CHILE_REGION_DISPLAY).map(([code, meta]) => ({
+  code,
+  name: meta.short,
+  roman: meta.roman,
+  shortLabel: `${meta.roman} ${meta.short}`,
+  fullLabel: `${meta.roman} ${meta.label}`,
+  color: meta.color,
+}))
 
 /** @type {Record<string, string>} */
 const CIUDAD_TO_REGION = {
@@ -181,7 +207,9 @@ export function aggregatePorRegion(porCiudad) {
           {
             code: 'CL-XX',
             name: 'Otras / sin clasificar',
-            path: '',
+            paths: [],
+            labelX: 0,
+            labelY: 0,
             total: acc['CL-XX'].total,
             vigente: acc['CL-XX'].vigente,
             terminado: acc['CL-XX'].terminado,
