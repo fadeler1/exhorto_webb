@@ -5,6 +5,7 @@ import { getDefaultRouteForPerfil } from '../../navigation/appNav.js'
 import { useLogin } from '../../auth/hooks/useLogin.js'
 import { ForgotPasswordModal } from './components/ForgotPasswordModal.jsx'
 import { LoginForm } from './components/LoginForm.jsx'
+import { BrandLogo } from '../shared/BrandLogo.jsx'
 import './LoginPage.css'
 
 /**
@@ -62,14 +63,7 @@ export function LoginPage() {
         <section className="loginPanel" aria-labelledby="login-title">
           <header className="loginPanel__header">
             <div className="loginPanel__logoWrap">
-              <img
-                className="loginPanel__logo"
-                src="/logo-tramitacion-exhortos.png"
-                width="72"
-                height="72"
-                alt=""
-                decoding="async"
-              />
+              <BrandLogo className="loginPanel__logo" />
             </div>
             <p className="loginPanel__eyebrow">A &amp; G Asociados</p>
             <h1 id="login-title" className="loginPanel__title">

@@ -8,6 +8,7 @@ import {
   parseExhortoDetail,
   removeBoletaReceptor,
   removeDiligencia,
+  updateBoletaReceptor,
 } from '../../api/exhortosApi.js'
 import { useAuthDependencies } from '../../auth/AuthDependenciesProvider.jsx'
 import { fixLegacyEncoding } from '../../utils/fixLegacyEncoding.js'
@@ -73,6 +74,9 @@ export function ExhortoDiligenciasPage() {
   const [fecha, setFecha] = useState(todayInputValue)
   const [observaciones, setObservaciones] = useState('')
   const [boletaModalOpen, setBoletaModalOpen] = useState(false)
+  const [editBoleta, setEditBoleta] = useState(
+    /** @type {import('../../api/exhortosApi.js').BoletaReceptorItem | null} */ (null),
+  )
   const [boletaModalError, setBoletaModalError] = useState(/** @type {string | null} */ (null))
   const [isSavingBoleta, setIsSavingBoleta] = useState(false)
   const [deleteRequest, setDeleteRequest] = useState(
@@ -232,7 +236,24 @@ export function ExhortoDiligenciasPage() {
   function handleOpenBoletaModal() {
     setFormError(null)
     setBoletaModalError(null)
+    setEditBoleta(null)
     setBoletaModalOpen(true)
+  }
+
+  /**
+   * @param {import('../../api/exhortosApi.js').BoletaReceptorItem} boleta
+   */
+  function handleEditarBoleta(boleta) {
+    setFormError(null)
+    setBoletaModalError(null)
+    setEditBoleta(boleta)
+    setBoletaModalOpen(true)
+  }
+
+  function handleCloseBoletaModal() {
+    if (isSavingBoleta) return
+    setBoletaModalOpen(false)
+    setEditBoleta(null)
   }
 
   /**
@@ -245,15 +266,19 @@ export function ExhortoDiligenciasPage() {
    */
   async function handleGuardarBoleta(payload) {
     if (!exhortoId) return
+    const boletaEnEdicion = editBoleta
     setBoletaModalError(null)
     setIsSavingBoleta(true)
     try {
-      const result = await addBoletaReceptor(apiClient, exhortoId, {
+      const body = {
         documento: payload.documento,
         receptor: payload.receptor,
         monto: payload.monto,
         diligenciaEtiquetaLegacy: payload.diligenciaEtiquetaLegacy,
-      })
+      }
+      const result = boletaEnEdicion?.id
+        ? await updateBoletaReceptor(apiClient, exhortoId, boletaEnEdicion.id, body)
+        : await addBoletaReceptor(apiClient, exhortoId, body)
       if (!result.ok) {
         if (result.status === 401) {
           clearSession()
@@ -270,9 +295,14 @@ export function ExhortoDiligenciasPage() {
         await loadData()
       }
       setBoletaModalOpen(false)
-      setFormOk('Boleta receptor guardada.')
+      setEditBoleta(null)
+      setFormOk(boletaEnEdicion ? 'Boleta receptor modificada.' : 'Boleta receptor guardada.')
     } catch {
-      setBoletaModalError('No se pudo guardar la boleta receptor.')
+      setBoletaModalError(
+        boletaEnEdicion
+          ? 'No se pudo modificar la boleta receptor.'
+          : 'No se pudo guardar la boleta receptor.',
+      )
     } finally {
       setIsSavingBoleta(false)
     }
@@ -525,15 +555,26 @@ export function ExhortoDiligenciasPage() {
                           <p className="diligList__obs">{display(b.diligenciaEtiquetaLegacy)}</p>
                         ) : null}
                       </div>
-                      <button
-                        type="button"
-                        className="diligList__remove"
-                        aria-label="Eliminar boleta receptor"
-                        title="Eliminar"
-                        onClick={() => void handleEliminarBoleta(b)}
-                      >
-                        ×
-                      </button>
+                      <div className="diligBoletas__actions">
+                        <button
+                          type="button"
+                          className="diligBoletas__edit"
+                          aria-label="Modificar boleta receptor"
+                          title="Modificar"
+                          onClick={() => handleEditarBoleta(b)}
+                        >
+                          ✎
+                        </button>
+                        <button
+                          type="button"
+                          className="diligList__remove"
+                          aria-label="Eliminar boleta receptor"
+                          title="Eliminar"
+                          onClick={() => void handleEliminarBoleta(b)}
+                        >
+                          ×
+                        </button>
+                      </div>
                     </li>
                   ))}
                 </ul>
@@ -542,9 +583,8 @@ export function ExhortoDiligenciasPage() {
 
             <BoletaReceptorModal
               isOpen={boletaModalOpen}
-              onClose={() => {
-                if (!isSavingBoleta) setBoletaModalOpen(false)
-              }}
+              boleta={editBoleta}
+              onClose={handleCloseBoletaModal}
               isSaving={isSavingBoleta}
               error={boletaModalError}
               onSave={handleGuardarBoleta}

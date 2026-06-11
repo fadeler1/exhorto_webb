@@ -353,6 +353,21 @@ export async function addBoletaReceptor(apiClient, exhortoId, body) {
  * @param {ReturnType<import('./apiClient.js').createApiClient>} apiClient
  * @param {string} exhortoId
  * @param {string} boletaId
+ * @param {{
+ *   receptor?: string
+ *   documento?: number
+ *   monto?: number
+ *   diligenciaEtiquetaLegacy?: string
+ * }} body
+ */
+export async function updateBoletaReceptor(apiClient, exhortoId, boletaId, body) {
+  return apiClient.patch(`/exhortos/${exhortoId}/boletas-receptor/${boletaId}`, body)
+}
+
+/**
+ * @param {ReturnType<import('./apiClient.js').createApiClient>} apiClient
+ * @param {string} exhortoId
+ * @param {string} boletaId
  */
 export async function removeBoletaReceptor(apiClient, exhortoId, boletaId) {
   return apiClient.delete(`/exhortos/${exhortoId}/boletas-receptor/${boletaId}`)

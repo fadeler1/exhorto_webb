@@ -261,16 +261,13 @@
 }
 
 .loginPanel__logo {
-  width: clamp(58px, 19vw, 76px);
-  height: auto;
-  aspect-ratio: 1;
-  object-fit: contain;
   border-radius: var(--login-radius-sm);
   background: var(--login-surface);
-  padding: 9px;
+  padding: 10px 12px 8px;
   box-shadow:
     0 4px 16px rgba(95, 122, 150, 0.14),
     0 0 0 1px rgba(255, 255, 255, 0.45);
+  width: clamp(108px, 28vw, 140px);
 }
 
 .loginPanel__eyebrow {

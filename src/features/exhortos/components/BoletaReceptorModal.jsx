@@ -1,5 +1,6 @@
 import { useCallback, useEffect, useId, useRef, useState } from 'react'
 import { createPortal } from 'react-dom'
+import { fixLegacyEncoding } from '../../../utils/fixLegacyEncoding.js'
 import './BoletaReceptorModal.css'
 
 /**
@@ -22,8 +23,24 @@ function parseDocumento(value) {
 }
 
 /**
+ * @param {import('../../../api/exhortosApi.js').BoletaReceptorItem | null | undefined} boleta
+ */
+function boletaToForm(boleta) {
+  if (!boleta) {
+    return { numeroBoleta: '', receptor: '', observaciones: '', monto: '' }
+  }
+  return {
+    numeroBoleta: boleta.documento != null ? String(boleta.documento) : '',
+    receptor: fixLegacyEncoding(boleta.receptor ?? ''),
+    observaciones: fixLegacyEncoding(boleta.diligenciaEtiquetaLegacy ?? ''),
+    monto: boleta.monto != null ? String(boleta.monto) : '',
+  }
+}
+
+/**
  * @param {{
  *   isOpen: boolean
+ *   boleta?: import('../../../api/exhortosApi.js').BoletaReceptorItem | null
  *   onClose: () => void
  *   isSaving?: boolean
  *   error?: string | null
@@ -37,6 +54,7 @@ function parseDocumento(value) {
  */
 export function BoletaReceptorModal({
   isOpen,
+  boleta = null,
   onClose,
   isSaving = false,
   error = null,
@@ -50,19 +68,20 @@ export function BoletaReceptorModal({
   const [monto, setMonto] = useState('')
   const [localError, setLocalError] = useState(/** @type {string | null} */ (null))
 
-  const reset = useCallback(() => {
-    setNumeroBoleta('')
-    setReceptor('')
-    setObservaciones('')
-    setMonto('')
+  const isEdit = boleta != null
+
+  const resetFromBoleta = useCallback(() => {
+    const form = boletaToForm(boleta)
+    setNumeroBoleta(form.numeroBoleta)
+    setReceptor(form.receptor)
+    setObservaciones(form.observaciones)
+    setMonto(form.monto)
     setLocalError(null)
-  }, [])
+  }, [boleta])
 
   useEffect(() => {
-    if (!isOpen) {
-      reset()
-      return undefined
-    }
+    if (!isOpen) return undefined
+    resetFromBoleta()
     const t = requestAnimationFrame(() => {
       numeroRef.current?.focus()
     })
@@ -72,7 +91,7 @@ export function BoletaReceptorModal({
       cancelAnimationFrame(t)
       document.body.style.overflow = prev
     }
-  }, [isOpen, reset])
+  }, [isOpen, resetFromBoleta])
 
   useEffect(() => {
     if (!isOpen) return undefined
@@ -116,7 +135,9 @@ export function BoletaReceptorModal({
     await onSave({
       documento,
       receptor: receptorTrim,
-      diligenciaEtiquetaLegacy: observacionesTrim || undefined,
+      diligenciaEtiquetaLegacy: isEdit
+        ? observacionesTrim
+        : observacionesTrim || undefined,
       monto: montoNum,
     })
   }
@@ -124,6 +145,7 @@ export function BoletaReceptorModal({
   if (!isOpen) return null
 
   const displayError = localError || error
+  const submitLabel = isEdit ? 'MODIFICAR' : 'Guardar Boleta'
 
   const modal = (
     <div className="boletaModalRoot" role="presentation">
@@ -142,7 +164,7 @@ export function BoletaReceptorModal({
       >
         <header className="boletaModal__header">
           <h2 id={titleId} className="boletaModal__title">
-            BOLETA RECEPTOR
+            {isEdit ? 'MODIFICAR BOLETA RECEPTOR' : 'BOLETA RECEPTOR'}
           </h2>
           <button
             type="button"
@@ -242,7 +264,7 @@ export function BoletaReceptorModal({
               className="boletaModal__btn boletaModal__btn--primary"
               disabled={isSaving}
             >
-              {isSaving ? 'Guardando…' : 'Guardar Boleta'}
+              {isSaving ? 'Guardando…' : submitLabel}
             </button>
           </footer>
         </form>

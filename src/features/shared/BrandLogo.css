@@ -1,0 +1,7 @@
+.brandLogo {
+  display: block;
+  width: clamp(96px, 26vw, 128px);
+  height: auto;
+  max-width: 100%;
+  object-fit: contain;
+}
