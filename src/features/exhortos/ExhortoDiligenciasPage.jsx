@@ -9,6 +9,7 @@ import {
   removeBoletaReceptor,
   removeDiligencia,
   updateBoletaReceptor,
+  updateDiligencia,
   updateExhorto,
 } from '../../api/exhortosApi.js'
 import { useAuthDependencies } from '../../auth/AuthDependenciesProvider.jsx'
@@ -18,6 +19,7 @@ import { mergeExhortoUpdateInDashboardSession } from '../dashboard/dashboardSear
 import { AppShell } from '../layout/AppShell.jsx'
 import { ConfirmDialog } from '../shared/ConfirmDialog.jsx'
 import { BoletaReceptorModal } from './components/BoletaReceptorModal.jsx'
+import { DiligenciaModal } from './components/DiligenciaModal.jsx'
 import { ExhortoDatosModal } from './components/ExhortoDatosModal.jsx'
 import './ExhortoDiligenciasPage.css'
 
@@ -79,6 +81,14 @@ export function ExhortoDiligenciasPage() {
   const [datosModalOpen, setDatosModalOpen] = useState(false)
   const [datosModalError, setDatosModalError] = useState(/** @type {string | null} */ (null))
   const [isSavingDatos, setIsSavingDatos] = useState(false)
+  const [diligenciaModalOpen, setDiligenciaModalOpen] = useState(false)
+  const [editDiligencia, setEditDiligencia] = useState(
+    /** @type {import('../../api/exhortosApi.js').DiligenciaItem | null} */ (null),
+  )
+  const [diligenciaModalError, setDiligenciaModalError] = useState(
+    /** @type {string | null} */ (null),
+  )
+  const [isSavingDiligencia, setIsSavingDiligencia] = useState(false)
   const [boletaModalOpen, setBoletaModalOpen] = useState(false)
   const [editBoleta, setEditBoleta] = useState(
     /** @type {import('../../api/exhortosApi.js').BoletaReceptorItem | null} */ (null),
@@ -186,6 +196,60 @@ export function ExhortoDiligenciasPage() {
       setFormError('No se pudo agregar la diligencia.')
     } finally {
       setIsSaving(false)
+    }
+  }
+
+  function handleCloseDiligenciaModal() {
+    if (isSavingDiligencia) return
+    setDiligenciaModalOpen(false)
+    setEditDiligencia(null)
+    setDiligenciaModalError(null)
+  }
+
+  /**
+   * @param {import('../../api/exhortosApi.js').DiligenciaItem} item
+   */
+  function handleEditarDiligencia(item) {
+    setFormError(null)
+    setDiligenciaModalError(null)
+    setEditDiligencia(item)
+    setDiligenciaModalOpen(true)
+  }
+
+  /**
+   * @param {{ codigo: string, fecha: string, observaciones?: string }} payload
+   */
+  async function handleGuardarDiligencia(payload) {
+    const diligenciaEnEdicion = editDiligencia
+    const id = diligenciaEnEdicion ? diligenciaId(diligenciaEnEdicion) : ''
+    if (!exhortoId || !id) return
+
+    setDiligenciaModalError(null)
+    setIsSavingDiligencia(true)
+    try {
+      const result = await updateDiligencia(apiClient, exhortoId, id, payload)
+      if (!result.ok) {
+        if (result.status === 401) {
+          clearSession()
+          navigate('/login', { replace: true })
+          return
+        }
+        setDiligenciaModalError(result.message)
+        return
+      }
+      const updated = parseExhortoDetail(result.data)
+      if (updated) {
+        setExhorto(updated)
+      } else {
+        await loadData()
+      }
+      setDiligenciaModalOpen(false)
+      setEditDiligencia(null)
+      setFormOk('Diligencia modificada.')
+    } catch {
+      setDiligenciaModalError('No se pudo modificar la diligencia.')
+    } finally {
+      setIsSavingDiligencia(false)
     }
   }
 
@@ -658,6 +722,16 @@ export function ExhortoDiligenciasPage() {
               onSave={handleGuardarBoleta}
             />
 
+            <DiligenciaModal
+              isOpen={diligenciaModalOpen}
+              diligencia={editDiligencia}
+              tipos={tiposActivos}
+              onClose={handleCloseDiligenciaModal}
+              isSaving={isSavingDiligencia}
+              error={diligenciaModalError}
+              onSave={handleGuardarDiligencia}
+            />
+
             <ConfirmDialog
               isOpen={deleteDialog != null}
               title={deleteDialog?.title ?? ''}
@@ -694,15 +768,26 @@ export function ExhortoDiligenciasPage() {
                             <p className="diligList__obs">{display(d.observaciones)}</p>
                           ) : null}
                         </div>
-                        <button
-                          type="button"
-                          className="diligList__remove"
-                          aria-label="Eliminar diligencia"
-                          title="Eliminar"
-                          onClick={() => void handleEliminar(d)}
-                        >
-                          ×
-                        </button>
+                        <div className="diligBoletas__actions">
+                          <button
+                            type="button"
+                            className="diligBoletas__edit"
+                            aria-label="Modificar diligencia"
+                            title="Modificar"
+                            onClick={() => handleEditarDiligencia(d)}
+                          >
+                            ✎
+                          </button>
+                          <button
+                            type="button"
+                            className="diligList__remove"
+                            aria-label="Eliminar diligencia"
+                            title="Eliminar"
+                            onClick={() => void handleEliminar(d)}
+                          >
+                            ×
+                          </button>
+                        </div>
                       </li>
                     )
                   })}

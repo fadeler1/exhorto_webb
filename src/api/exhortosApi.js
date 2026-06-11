@@ -361,6 +361,16 @@ export async function removeDiligencia(apiClient, exhortoId, diligenciaId) {
 /**
  * @param {ReturnType<import('./apiClient.js').createApiClient>} apiClient
  * @param {string} exhortoId
+ * @param {string} diligenciaId
+ * @param {{ codigo?: string, fecha?: string, observaciones?: string }} body
+ */
+export async function updateDiligencia(apiClient, exhortoId, diligenciaId, body) {
+  return apiClient.patch(`/exhortos/${exhortoId}/diligencias/${diligenciaId}`, body)
+}
+
+/**
+ * @param {ReturnType<import('./apiClient.js').createApiClient>} apiClient
+ * @param {string} exhortoId
  * @param {{
  *   receptor: string
  *   documento: number
