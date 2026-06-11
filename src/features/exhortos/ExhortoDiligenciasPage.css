@@ -1,10 +1,10 @@
-/* Escala tipográfica proporcional: los em hijos crecen con el contenedor */
+/* Escala tipográfica: mitad del agrandamiento respecto al layout base */
 .diligPage__inner {
   width: 100%;
-  max-width: none;
-  margin: 0;
-  font-size: clamp(1.0625rem, 0.55vw + 0.98rem, 1.3125rem);
-  line-height: 1.5;
+  max-width: min(100%, 1260px);
+  margin: 0 auto;
+  font-size: clamp(1.03125rem, 0.275vw + 0.99rem, 1.15625rem);
+  line-height: 1.45;
 }
 
 .diligPage__crumb {
@@ -24,6 +24,42 @@
   grid-template-columns: repeat(3, minmax(0, 1fr));
   gap: 0.75em 1.25em;
   margin-bottom: 1.35em;
+}
+
+.diligReadonly__toolbar {
+  grid-column: 1 / -1;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5em 1em;
+  margin-bottom: 0.15em;
+}
+
+.diligReadonly__title {
+  margin: 0;
+  font-size: 0.82em;
+  font-weight: 800;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--dash-text);
+}
+
+.diligReadonly__edit {
+  padding: 0.45em 0.85em;
+  border: 1px solid var(--dash-border);
+  border-radius: 0.35em;
+  background: var(--dash-surface);
+  color: var(--app-link, #6d94b8);
+  font-size: 0.82em;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+}
+
+.diligReadonly__edit:hover {
+  background: var(--dash-surface-2);
+  color: var(--app-link-hover, #5a7fa3);
 }
 
 @media (max-width: 900px) {
@@ -97,14 +133,14 @@
 }
 
 .diligForm__select {
-  min-height: 2.75em;
+  min-height: 2.55em;
   cursor: pointer;
 }
 
 .diligForm__textarea {
-  min-height: 7em;
+  min-height: 6.25em;
   resize: vertical;
-  line-height: 1.45;
+  line-height: 1.4;
 }
 
 .diligForm__meta {

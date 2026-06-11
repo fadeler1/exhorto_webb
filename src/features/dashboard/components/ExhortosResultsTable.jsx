@@ -104,6 +104,7 @@ function IconCheck() {
  *   onPageChange: (page: number) => void
  *   onExport?: () => void
  *   onEdit?: (row: import('../../../api/exhortosApi.js').ExhortoListItem) => void
+ *   onModifyExhorto?: (row: import('../../../api/exhortosApi.js').ExhortoListItem) => void
  *   onDelete?: (row: import('../../../api/exhortosApi.js').ExhortoListItem) => void
  *   onHonorario?: (row: import('../../../api/exhortosApi.js').ExhortoListItem) => void
  *   onDevolucion?: (row: import('../../../api/exhortosApi.js').ExhortoListItem) => void
@@ -122,6 +123,7 @@ export function ExhortosResultsTable({
   onPageChange,
   onExport,
   onEdit,
+  onModifyExhorto,
   onDelete,
   onHonorario,
   onDevolucion,
@@ -130,7 +132,7 @@ export function ExhortosResultsTable({
   const totalPages = getTotalPages(total, pageSize)
   const from = total === 0 ? 0 : (page - 1) * pageSize + 1
   const to = total === 0 ? 0 : Math.min(page * pageSize, total)
-  const hasActions = Boolean(onEdit || onDelete || onHonorario || onDevolucion)
+  const hasActions = Boolean(onEdit || onModifyExhorto || onDelete || onHonorario || onDevolucion)
   const colSpan = hasActions ? 6 : 5
   const showEmpty = !isLoading && total === 0 && items.length === 0
 
@@ -290,8 +292,8 @@ export function ExhortosResultsTable({
                               <button
                                 type="button"
                                 className="exhortosTable__action exhortosTable__action--edit"
-                                aria-label={`Editar exhorto ${row.rolJuicio ?? ''}`}
-                                title="Editar"
+                                aria-label={`Ingresar diligencia ${row.rolJuicio ?? ''}`}
+                                title="Ingresar diligencia"
                                 disabled={busy || !row.id}
                                 onClick={() => onEdit(row)}
                               >
@@ -299,6 +301,23 @@ export function ExhortosResultsTable({
                                   <path
                                     fill="currentColor"
                                     d="M12.1 2.5a1.4 1.4 0 0 1 2 2L5.2 13.4l-3.6.8.8-3.6L12.1 2.5Z"
+                                  />
+                                </svg>
+                              </button>
+                            ) : null}
+                            {onModifyExhorto ? (
+                              <button
+                                type="button"
+                                className="exhortosTable__action exhortosTable__action--modify"
+                                aria-label={`Modificar exhorto ${row.rolJuicio ?? ''}`}
+                                title="Modificar exhorto"
+                                disabled={busy || !row.id}
+                                onClick={() => onModifyExhorto(row)}
+                              >
+                                <svg viewBox="0 0 16 16" aria-hidden>
+                                  <path
+                                    fill="currentColor"
+                                    d="M4 1.5h5.5L13 5v9.5H4V1.5ZM9.5 2v3h3M6 8h4M6 10.5h4"
                                   />
                                 </svg>
                               </button>

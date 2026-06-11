@@ -1,9 +1,10 @@
-import { useCallback, useMemo, useState } from 'react'
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
 import { useNavigate } from 'react-router-dom'
 import {
   deleteExhorto,
   parseExhortoSearchResponse,
   searchExhortos,
+  updateExhorto,
 } from '../../api/exhortosApi.js'
 import { BOLETA_TIPO, createHonorario } from '../../api/honorariosApi.js'
 import { useAuthDependencies } from '../../auth/AuthDependenciesProvider.jsx'
@@ -15,6 +16,7 @@ import { ConfirmDialog } from '../shared/ConfirmDialog.jsx'
 import { BoletaHonorarioModal } from '../honorarios/components/BoletaHonorarioModal.jsx'
 import { DiligenciaTipoSelect } from '../shared/DiligenciaTipoSelect.jsx'
 import { fixLegacyEncoding } from '../../utils/fixLegacyEncoding.js'
+import { ExhortoDatosModal } from '../exhortos/components/ExhortoDatosModal.jsx'
 import { ExhortosResultsTable } from './components/ExhortosResultsTable.jsx'
 import {
   downloadExhortosExcel,
@@ -24,6 +26,10 @@ import {
   areExhortoFiltersEqual,
   listActiveExhortoFilterLabels,
 } from './exhortoFiltersUtils.js'
+import {
+  readDashboardSearchSession,
+  writeDashboardSearchSession,
+} from './dashboardSearchSession.js'
 import './DashboardPage.css'
 
 const EXHORTOS_PAGE_SIZE = 20
@@ -65,6 +71,11 @@ export function DashboardPage() {
   )
   const [boletaModalError, setBoletaModalError] = useState(/** @type {string | null} */ (null))
   const [isSavingBoleta, setIsSavingBoleta] = useState(false)
+  const [editExhortoTarget, setEditExhortoTarget] = useState(
+    /** @type {import('../../api/exhortosApi.js').ExhortoListItem | null} */ (null),
+  )
+  const [datosModalError, setDatosModalError] = useState(/** @type {string | null} */ (null))
+  const [isSavingDatos, setIsSavingDatos] = useState(false)
   const [hasSearched, setHasSearched] = useState(false)
   const [page, setPage] = useState(1)
   const [lastSearchFilters, setLastSearchFilters] = useState(emptyFiltros)
@@ -75,6 +86,7 @@ export function DashboardPage() {
     }),
   )
   const { diligenciaTipos } = useDiligenciaTipos(apiClient)
+  const restoredSearchRef = useRef(false)
 
   const filtersStale = useMemo(
     () => hasSearched && !areExhortoFiltersEqual(filtros, lastSearchFilters),
@@ -118,10 +130,19 @@ export function DashboardPage() {
           return
         }
         const parsed = parseExhortoSearchResponse(result.data)
+        const filtersSnap = { ...activeFilters }
         setSearchResult(parsed)
         setPage(targetPage)
-        setLastSearchFilters({ ...activeFilters })
+        setLastSearchFilters(filtersSnap)
         setHasSearched(true)
+        writeDashboardSearchSession({
+          filtros: filtersSnap,
+          lastSearchFilters: filtersSnap,
+          page: targetPage,
+          hasSearched: true,
+          searchResult: parsed,
+          needsRefresh: false,
+        })
       } catch {
         setSearchError('No se pudo buscar exhortos. Intenta de nuevo.')
       } finally {
@@ -130,6 +151,25 @@ export function DashboardPage() {
     },
     [apiClient, clearSession, filtros, navigate],
   )
+
+  useEffect(() => {
+    if (restoredSearchRef.current) return
+    restoredSearchRef.current = true
+
+    const session = readDashboardSearchSession()
+    if (!session) return
+
+    setFiltros({ ...emptyFiltros(), ...session.filtros })
+    setLastSearchFilters({ ...emptyFiltros(), ...session.lastSearchFilters })
+    setPage(session.page)
+    setHasSearched(true)
+    if (session.searchResult) {
+      setSearchResult(session.searchResult)
+    }
+    if (session.needsRefresh) {
+      void runSearch(session.page, { ...emptyFiltros(), ...session.lastSearchFilters })
+    }
+  }, [runSearch])
 
   async function handleBuscar(e) {
     e.preventDefault()
@@ -207,6 +247,50 @@ export function DashboardPage() {
     if (isSavingBoleta) return
     setBoletaRequest(null)
     setBoletaModalError(null)
+  }
+
+  /**
+   * @param {import('../../api/exhortosApi.js').ExhortoListItem} row
+   */
+  function handleOpenEditExhorto(row) {
+    if (!row.id) return
+    setDatosModalError(null)
+    setEditExhortoTarget(row)
+  }
+
+  function handleCloseDatosModal() {
+    if (isSavingDatos) return
+    setEditExhortoTarget(null)
+    setDatosModalError(null)
+  }
+
+  /**
+   * @param {import('../../api/exhortosApi.js').UpdateExhortoBody} payload
+   */
+  async function handleGuardarDatosExhorto(payload) {
+    if (!editExhortoTarget?.id) return
+    setDatosModalError(null)
+    setIsSavingDatos(true)
+    setActionBusyId(editExhortoTarget.id)
+    try {
+      const result = await updateExhorto(apiClient, editExhortoTarget.id, payload)
+      if (!result.ok) {
+        if (result.status === 401) {
+          clearSession()
+          navigate('/login', { replace: true })
+          return
+        }
+        setDatosModalError(result.message)
+        return
+      }
+      setEditExhortoTarget(null)
+      await runSearch(page, lastSearchFilters)
+    } catch {
+      setDatosModalError('No se pudo modificar el exhorto.')
+    } finally {
+      setIsSavingDatos(false)
+      setActionBusyId(null)
+    }
   }
 
   async function handleSaveBoleta(payload) {
@@ -447,12 +531,22 @@ export function DashboardPage() {
                   navigate(`/exhortos/${row.id}/diligencias`)
                 }
               }}
+              onModifyExhorto={handleOpenEditExhorto}
               onDelete={handleDelete}
               onHonorario={isTodo ? handleOpenHonorario : undefined}
               onDevolucion={isTodo ? handleOpenDevolucion : undefined}
             />
           ) : null}
         </section>
+
+        <ExhortoDatosModal
+          isOpen={editExhortoTarget != null}
+          exhorto={editExhortoTarget}
+          onClose={handleCloseDatosModal}
+          isSaving={isSavingDatos}
+          error={datosModalError}
+          onSave={handleGuardarDatosExhorto}
+        />
 
         <BoletaHonorarioModal
           isOpen={boletaRequest != null}

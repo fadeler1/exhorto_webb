@@ -9,13 +9,16 @@ import {
   removeBoletaReceptor,
   removeDiligencia,
   updateBoletaReceptor,
+  updateExhorto,
 } from '../../api/exhortosApi.js'
 import { useAuthDependencies } from '../../auth/AuthDependenciesProvider.jsx'
 import { fixLegacyEncoding } from '../../utils/fixLegacyEncoding.js'
 import { formatLegacyDate } from '../../utils/formatLegacyDate.js'
+import { mergeExhortoUpdateInDashboardSession } from '../dashboard/dashboardSearchSession.js'
 import { AppShell } from '../layout/AppShell.jsx'
 import { ConfirmDialog } from '../shared/ConfirmDialog.jsx'
 import { BoletaReceptorModal } from './components/BoletaReceptorModal.jsx'
+import { ExhortoDatosModal } from './components/ExhortoDatosModal.jsx'
 import './ExhortoDiligenciasPage.css'
 
 /**
@@ -73,6 +76,9 @@ export function ExhortoDiligenciasPage() {
   const [codigo, setCodigo] = useState('')
   const [fecha, setFecha] = useState(todayInputValue)
   const [observaciones, setObservaciones] = useState('')
+  const [datosModalOpen, setDatosModalOpen] = useState(false)
+  const [datosModalError, setDatosModalError] = useState(/** @type {string | null} */ (null))
+  const [isSavingDatos, setIsSavingDatos] = useState(false)
   const [boletaModalOpen, setBoletaModalOpen] = useState(false)
   const [editBoleta, setEditBoleta] = useState(
     /** @type {import('../../api/exhortosApi.js').BoletaReceptorItem | null} */ (null),
@@ -243,6 +249,46 @@ export function ExhortoDiligenciasPage() {
   /**
    * @param {import('../../api/exhortosApi.js').BoletaReceptorItem} boleta
    */
+  function handleCloseDatosModal() {
+    if (isSavingDatos) return
+    setDatosModalOpen(false)
+    setDatosModalError(null)
+  }
+
+  /**
+   * @param {import('../../api/exhortosApi.js').UpdateExhortoBody} payload
+   */
+  async function handleGuardarDatos(payload) {
+    if (!exhortoId) return
+    setDatosModalError(null)
+    setIsSavingDatos(true)
+    try {
+      const result = await updateExhorto(apiClient, exhortoId, payload)
+      if (!result.ok) {
+        if (result.status === 401) {
+          clearSession()
+          navigate('/login', { replace: true })
+          return
+        }
+        setDatosModalError(result.message)
+        return
+      }
+      const updated = parseExhortoDetail(result.data)
+      if (updated) {
+        setExhorto(updated)
+        mergeExhortoUpdateInDashboardSession(updated)
+      } else {
+        await loadData()
+      }
+      setDatosModalOpen(false)
+      setFormOk('Datos del exhorto actualizados.')
+    } catch {
+      setDatosModalError('No se pudo modificar el exhorto.')
+    } finally {
+      setIsSavingDatos(false)
+    }
+  }
+
   function handleEditarBoleta(boleta) {
     setFormError(null)
     setBoletaModalError(null)
@@ -421,6 +467,19 @@ export function ExhortoDiligenciasPage() {
         {!isLoading && !loadError && exhorto ? (
           <>
             <section className="diligReadonly" aria-label="Datos del exhorto">
+              <div className="diligReadonly__toolbar">
+                <h2 className="diligReadonly__title">Datos del exhorto</h2>
+                <button
+                  type="button"
+                  className="diligReadonly__edit"
+                  onClick={() => {
+                    setDatosModalError(null)
+                    setDatosModalOpen(true)
+                  }}
+                >
+                  Modificar datos
+                </button>
+              </div>
               <div className="diligReadonly__field">
                 <span className="diligReadonly__label">Apellido</span>
                 <input
@@ -580,6 +639,15 @@ export function ExhortoDiligenciasPage() {
                 </ul>
               </section>
             ) : null}
+
+            <ExhortoDatosModal
+              isOpen={datosModalOpen}
+              exhorto={exhorto}
+              onClose={handleCloseDatosModal}
+              isSaving={isSavingDatos}
+              error={datosModalError}
+              onSave={handleGuardarDatos}
+            />
 
             <BoletaReceptorModal
               isOpen={boletaModalOpen}

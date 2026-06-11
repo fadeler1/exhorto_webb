@@ -271,6 +271,11 @@
   background: #1976d2;
 }
 
+.exhortosTable__action--modify {
+  color: #fff;
+  background: #5f7a96;
+}
+
 .exhortosTable__action--delete {
   color: #fff;
   background: #c62828;

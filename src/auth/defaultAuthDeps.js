@@ -1,4 +1,5 @@
 import { createApiClient } from '../api/apiClient.js'
+import { clearDashboardSearchSession } from '../features/dashboard/dashboardSearchSession.js'
 import { createHttpAuthService } from './infrastructure/httpAuthService.js'
 import { createSessionTokenStorage } from './infrastructure/sessionTokenStorage.js'
 import { createSessionUserStorage } from './infrastructure/sessionUserStorage.js'
@@ -27,6 +28,7 @@ export function createDefaultAuthDependencies() {
   function clearSession() {
     tokenStorage.clear()
     userStorage.clear()
+    clearDashboardSearchSession()
   }
 
   return {

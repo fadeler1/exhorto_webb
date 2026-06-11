@@ -318,6 +318,29 @@ export async function createExhorto(apiClient, body) {
 }
 
 /**
+ * @typedef {{
+ *   apellidoDeudor?: string
+ *   nombreCliente?: string
+ *   tribunalOrigen?: string
+ *   rolJuicio?: string
+ *   ciudad?: string
+ *   facultades?: string
+ *   abogado?: string
+ *   rut?: string
+ * }} UpdateExhortoBody
+ */
+
+/**
+ * PATCH /exhortos/:id — actualiza datos maestros del exhorto.
+ * @param {ReturnType<import('./apiClient.js').createApiClient>} apiClient
+ * @param {string} exhortoId
+ * @param {UpdateExhortoBody} body
+ */
+export async function updateExhorto(apiClient, exhortoId, body) {
+  return apiClient.patch(`/exhortos/${exhortoId}`, body)
+}
+
+/**
  * @param {ReturnType<import('./apiClient.js').createApiClient>} apiClient
  * @param {string} exhortoId
  * @param {{ codigo: string, fecha: string, observaciones?: string }} body
