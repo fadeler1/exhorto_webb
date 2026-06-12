@@ -1,6 +1,7 @@
 import { useCallback, useEffect, useState } from 'react'
 import { useLocation, useNavigate } from 'react-router-dom'
 import { getActiveNavId, isNavSectionActive } from '../../navigation/appNav.js'
+import { clearDashboardSearchSession } from '../dashboard/dashboardSearchSession.js'
 
 /**
  * @param {{
@@ -36,7 +37,12 @@ export function AppNavMenu({ items, activeNav, onNavigate }) {
   }, [items, resolvedActive, ensureSectionOpen])
 
   function go(path) {
-    navigate(path)
+    if (path === '/dashboard') {
+      clearDashboardSearchSession()
+      navigate(path, { state: { resetExhortoSearch: true } })
+    } else {
+      navigate(path)
+    }
     onNavigate?.()
   }
 

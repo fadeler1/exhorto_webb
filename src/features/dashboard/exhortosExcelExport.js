@@ -12,8 +12,9 @@ const EXPORT_PAGE_SIZE = 200
 
 const SHEET_TITLE = 'Tramitación Exhortos A & G Asociados'
 
-const HEADER_FILL = '0D2142'
-const HEADER_FONT = 'EB5E28'
+/** Celeste pastel alineado a appTheme.css */
+const HEADER_FILL = 'B8CFE0'
+const HEADER_FONT = '47586B'
 
 const EXCEL_COLUMNS = [
   { title: 'CLIENTE', width: 38 },

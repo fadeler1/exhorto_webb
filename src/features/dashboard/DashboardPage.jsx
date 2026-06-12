@@ -1,5 +1,5 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useCallback, useEffect, useMemo, useState } from 'react'
+import { useLocation, useNavigate } from 'react-router-dom'
 import {
   deleteExhorto,
   parseExhortoSearchResponse,
@@ -27,7 +27,7 @@ import {
   listActiveExhortoFilterLabels,
 } from './exhortoFiltersUtils.js'
 import {
-  readDashboardSearchSession,
+  clearDashboardSearchSession,
   writeDashboardSearchSession,
 } from './dashboardSearchSession.js'
 import './DashboardPage.css'
@@ -53,6 +53,7 @@ const emptyFiltros = () => ({
  * Búsqueda de exhortos (menú EXHORTO).
  */
 export function DashboardPage() {
+  const location = useLocation()
   const navigate = useNavigate()
   const { apiClient, clearSession } = useAuthDependencies()
   const { canIngresarExhorto, isTodo } = useUserPerfil()
@@ -86,7 +87,6 @@ export function DashboardPage() {
     }),
   )
   const { diligenciaTipos } = useDiligenciaTipos(apiClient)
-  const restoredSearchRef = useRef(false)
 
   const filtersStale = useMemo(
     () => hasSearched && !areExhortoFiltersEqual(filtros, lastSearchFilters),
@@ -101,6 +101,17 @@ export function DashboardPage() {
   function setField(name, value) {
     setFiltros((prev) => ({ ...prev, [name]: value }))
   }
+
+  const resetSearchForm = useCallback(() => {
+    const empty = emptyFiltros()
+    setFiltros(empty)
+    setLastSearchFilters(empty)
+    setPage(1)
+    setHasSearched(false)
+    setSearchResult({ data: [], total: 0 })
+    setSearchError(null)
+    clearDashboardSearchSession()
+  }, [])
 
   const runSearch = useCallback(
     async (targetPage, filtersOverride) => {
@@ -153,23 +164,10 @@ export function DashboardPage() {
   )
 
   useEffect(() => {
-    if (restoredSearchRef.current) return
-    restoredSearchRef.current = true
-
-    const session = readDashboardSearchSession()
-    if (!session) return
-
-    setFiltros({ ...emptyFiltros(), ...session.filtros })
-    setLastSearchFilters({ ...emptyFiltros(), ...session.lastSearchFilters })
-    setPage(session.page)
-    setHasSearched(true)
-    if (session.searchResult) {
-      setSearchResult(session.searchResult)
-    }
-    if (session.needsRefresh) {
-      void runSearch(session.page, { ...emptyFiltros(), ...session.lastSearchFilters })
-    }
-  }, [runSearch])
+    if (!location.state?.resetExhortoSearch) return
+    resetSearchForm()
+    navigate(location.pathname, { replace: true, state: null })
+  }, [location.pathname, location.state, navigate, resetSearchForm])
 
   async function handleBuscar(e) {
     e.preventDefault()
