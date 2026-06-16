@@ -6,7 +6,7 @@
 
 .ingresarExhorto__title {
   margin: 0 0 1rem;
-  font-size: 1.05rem;
+  font-size: 1.05em;
   font-weight: 700;
   color: var(--dash-text);
 }
@@ -26,7 +26,7 @@
 
 .ingresarExhorto__panelTitle {
   margin: 0 0 1rem;
-  font-size: 0.92rem;
+  font-size: 0.92em;
   font-weight: 700;
   color: var(--dash-text);
 }
@@ -61,7 +61,7 @@
 }
 
 .ingresarExhorto__label {
-  font-size: 0.78rem;
+  font-size: 0.78em;
   font-weight: 600;
   color: var(--dash-text-muted);
 }
@@ -72,7 +72,7 @@
   padding: 0.5rem 0.65rem;
   border: 1px solid var(--dash-border);
   border-radius: 4px;
-  font-size: 0.88rem;
+  font-size: 0.88em;
   color: var(--dash-text);
   background: var(--dash-surface);
 }
@@ -100,7 +100,7 @@
   border-radius: 4px;
   background: linear-gradient(180deg, #3cb878 0%, #2a9d5c 100%);
   color: #fff;
-  font-size: 0.9rem;
+  font-size: 0.9em;
   font-weight: 800;
   letter-spacing: 0.05em;
   cursor: pointer;
@@ -116,7 +116,7 @@
   margin: 0 0 0.85rem;
   padding: 0.5rem 0.75rem;
   border-radius: 6px;
-  font-size: 0.85rem;
+  font-size: 0.85em;
 }
 
 .ingresarExhorto__feedback--error {

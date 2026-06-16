@@ -46,7 +46,7 @@
   background: var(--dash-surface-2, #f4f6fa);
   border: 1px solid var(--dash-border, #dce3ee);
   color: var(--dash-text-muted, #4a5d7c);
-  font-size: 0.68rem;
+  font-size: 0.68em;
   font-weight: 700;
   letter-spacing: 0.02em;
   line-height: 1.3;
@@ -59,13 +59,13 @@
   border: 1px solid rgba(235, 94, 40, 0.28);
   background: rgba(235, 94, 40, 0.08);
   color: var(--dash-navy, #0d2142);
-  font-size: 0.82rem;
+  font-size: 0.82em;
   line-height: 1.45;
 }
 
 .exhortosTable__title {
   margin: 0;
-  font-size: 0.82rem;
+  font-size: 0.82em;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -81,7 +81,7 @@
   border-radius: 8px;
   background: linear-gradient(180deg, #eef3f8 0%, #e4ebf3 100%);
   color: var(--dash-navy, #5f7a96);
-  font-size: 0.74rem;
+  font-size: 0.74em;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-transform: uppercase;
@@ -118,7 +118,7 @@
   margin: 0.5rem 0 0;
   padding: 1.25rem;
   text-align: center;
-  font-size: 0.85rem;
+  font-size: 0.85em;
   color: var(--dash-text-muted, #4a5d7c);
   background: var(--dash-surface-2, #f4f6fa);
   border-radius: 8px;
@@ -140,7 +140,7 @@
   width: 100%;
   min-width: 720px;
   border-collapse: collapse;
-  font-size: 0.78rem;
+  font-size: 0.78em;
   color: #2c3e50;
 }
 
@@ -154,7 +154,7 @@
 
 .exhortosTable th {
   background: linear-gradient(180deg, #f8fafc 0%, #eef2f7 100%);
-  font-size: 0.68rem;
+  font-size: 0.68em;
   font-weight: 700;
   letter-spacing: 0.05em;
   text-transform: uppercase;
@@ -208,7 +208,7 @@
 
 .exhortosTable__caratulaCon {
   font-weight: 800;
-  font-size: 0.72rem;
+  font-size: 0.72em;
   letter-spacing: 0.08em;
   color: #c62828;
 }
@@ -225,7 +225,7 @@
   min-width: 5.5rem;
   padding: 0.2rem 0.55rem;
   border-radius: 3px;
-  font-size: 0.65rem;
+  font-size: 0.65em;
   font-weight: 800;
   letter-spacing: 0.04em;
   text-align: center;
@@ -311,7 +311,7 @@
 
 .exhortosPagination__info {
   margin: 0;
-  font-size: 0.78rem;
+  font-size: 0.78em;
   color: var(--dash-text-muted, #4a5d7c);
 }
 
@@ -323,7 +323,7 @@
 }
 
 .exhortosPagination__pages {
-  font-size: 0.78rem;
+  font-size: 0.78em;
   color: var(--dash-navy, #0d2142);
 }
 
@@ -336,7 +336,7 @@
   border: 1px solid var(--dash-border, #dce3ee);
   border-radius: 6px;
   background: var(--dash-surface);
-  font-size: 0.75rem;
+  font-size: 0.75em;
   font-weight: 700;
   color: var(--dash-navy, #0d2142);
   cursor: pointer;
@@ -384,14 +384,14 @@
   }
 
   .exhortosTable__title {
-    font-size: 0.76rem;
+    font-size: 0.76em;
     line-height: 1.4;
   }
 
   .exhortosTable__count {
     display: block;
     margin-top: 0.15rem;
-    font-size: 0.74rem;
+    font-size: 0.74em;
   }
 
   .exhortosTable__export {
@@ -403,7 +403,7 @@
 
   .exhortosTable__staleFilters {
     margin-inline: 0;
-    font-size: 0.78rem;
+    font-size: 0.78em;
   }
 
   .exhortosTable__empty {
@@ -424,7 +424,7 @@
     width: 100%;
     max-width: 100%;
     min-width: 0;
-    font-size: 0.8rem;
+    font-size: 0.8em;
     table-layout: auto;
   }
 
@@ -478,7 +478,7 @@
     content: attr(data-label);
     flex: none;
     width: 100%;
-    font-size: 0.62rem;
+    font-size: 0.62em;
     font-weight: 800;
     letter-spacing: 0.05em;
     text-transform: uppercase;
@@ -549,7 +549,7 @@
 
   .exhortosPagination__info {
     text-align: center;
-    font-size: 0.76rem;
+    font-size: 0.76em;
   }
 
   .exhortosPagination__controls {
@@ -566,6 +566,6 @@
   .exhortosPagination__pages {
     flex: 1;
     text-align: center;
-    font-size: 0.76rem;
+    font-size: 0.76em;
   }
 }
